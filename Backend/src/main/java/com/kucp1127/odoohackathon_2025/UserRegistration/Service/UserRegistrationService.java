@@ -9,7 +9,7 @@ import com.kucp1127.odoohackathon_2025.UserRegistration.Model.UserRegistrationsM
 import com.kucp1127.odoohackathon_2025.UserRegistration.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -36,6 +36,7 @@ public class UserRegistrationService {
             String body = "Hello " + userRegistrationsModel.getFullName() + ",\n\nThank you for registering as a Facility Owner. Your account is now pending verification from our admin team. We will notify you once your account has been approved.\n\nBest regards,\nThe QuickCourt Team";
             emailService.sendSimpleEmail(userRegistrationsModel.getEmail(), subject, body);
             FacilityOwnerProfile fp = new FacilityOwnerProfile();
+            fp.setFacilityIds(new ArrayList<>());
             fp.setEmail(userRegistrationsModel.getEmail());
             facilityOwnerProfileRepository.save(fp);
         }

@@ -20,7 +20,7 @@ public class Venue {
     private String name;
     private String description;
     private String address;
-
+    private boolean isVerified;
     @ElementCollection
     private List<String> photoUrls = new ArrayList<>();
 
@@ -29,18 +29,8 @@ public class Venue {
 
     @Column(nullable = true)
     private Integer rating;
+    private String ownerMail;
 
-    // bidirectional owner link
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_email")
-    @JsonBackReference("owner-venues")
-    private FacilityOwnerProfile ownerProfile;
+    private List<Long> SportIds;
 
-    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("venue-sports")
-    private List<Sport> sports = new ArrayList<>();
-
-    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("venue-comments")
-    private List<Comment> comments = new ArrayList<>();
 }

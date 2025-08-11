@@ -1,11 +1,13 @@
 package com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Service;
 
+import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.DTO.VenueUpdateRequest;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Repository.FacilityOwnerProfileRepository;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Repository.VenueRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,40 +25,69 @@ public class VenueService {
 
     @Transactional
     public Venue createVenueForOwner(Venue venue, String ownerEmail) {
-        FacilityOwnerProfile owner = profileRepository.findById(ownerEmail)
-            .orElseThrow(() -> new IllegalArgumentException("Owner not found: " + ownerEmail));
+        if (venue.getName() == null || venue.getName().isBlank()) {
+            throw new IllegalArgumentException("Venue.name is required");
+        }
 
-        venue.setOwnerProfile(owner);
-        owner.getVenues().add(venue);
+        FacilityOwnerProfile owner = profileRepository.findById(ownerEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Owner not found: " + ownerEmail));
+
+        venue.setOwnerMail(ownerEmail);
+        Venue venue1 = venueRepository.save(venue);
+        owner.getFacilityIds().add(venue1.getId());
         profileRepository.save(owner);
-        return venue;
+        return venue1;
     }
+
 
     public Optional<Venue> getVenue(Long id) {
         return venueRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
-    public List<Venue> getVenuesByOwnerEmail(String ownerEmail) {
-        return profileRepository.findById(ownerEmail)
-                .map(FacilityOwnerProfile::getVenues)
-                .orElse(Collections.emptyList());
+    public Optional<List<Venue>> getVenuesByOwnerEmail(String ownerEmail) {
+        return venueRepository.findByOwnerMail(ownerEmail);
     }
 
     @Transactional
     public void deleteVenueByRemovingFromOwner(String ownerEmail, Long venueId) {
-        FacilityOwnerProfile owner = profileRepository.findById(ownerEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Owner not found"));
-
-        boolean removed = owner.getVenues().removeIf(v -> v.getId().equals(venueId));
-        if (!removed) {
-            throw new EntityNotFoundException("Venue not found for owner");
+        Optional<FacilityOwnerProfile> facilityOwnerProfile = profileRepository.findById(ownerEmail);
+        if(!facilityOwnerProfile.isPresent()) {
+            throw new EntityNotFoundException("Owner not found: " + ownerEmail);
         }
-        // because of cascade = ALL + orphanRemoval = true, saving owner will delete the removed venue
-        profileRepository.save(owner);
+        else{
+            facilityOwnerProfile.get().getFacilityIds().remove(venueId);
+            profileRepository.save(facilityOwnerProfile.get());
+            venueRepository.deleteById(venueId);
+        }
     }
 
 
+    @Transactional
+    public Optional<Venue> updateVenue(Long venueId, VenueUpdateRequest req) {
+        Optional<Venue> opt = venueRepository.findById(venueId);
+        if (opt.isEmpty()) return Optional.empty();
 
-    // other helpers: list venues, update venue, delete venue...
+        Venue venue = opt.get();
+        if (req.name != null) venue.setName(req.name);
+        if (req.description != null) venue.setDescription(req.description);
+        if (req.address != null) venue.setAddress(req.address);
+        if (req.photoUrls != null) venue.setPhotoUrls(new ArrayList<>(req.photoUrls));
+        if (req.amenities != null) venue.setAmenities(new ArrayList<>(req.amenities));
+
+        return Optional.of(venueRepository.save(venue));
+    }
+
+    public Object getAllVenue() {
+        return venueRepository.findAll();
+    }
+
+    public Venue verify(Long venueId) {
+        Optional<Venue> venue = venueRepository.findById(venueId);
+        if (venue.isEmpty()) return null;
+        venue.get().setVerified(true);
+        venueRepository.save(venue.get());
+        return venue.get();
+    }
+
 }
