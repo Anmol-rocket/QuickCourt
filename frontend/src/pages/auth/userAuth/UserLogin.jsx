@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import styles from "./UserLogin.module.css";
 import BASE_URL from "../../../api/baseURL";
 
 export default function UserLogin() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -12,82 +16,193 @@ export default function UserLogin() {
     e.preventDefault();
     setError("");
     setLoading(true);
+    
     try {
-      const url = `${BASE_URL}/login?email=${encodeURIComponent(
-        email
-      )}&password=${encodeURIComponent(password)}`;
-      const response = await fetch(url, { method: "GET" });
+      const params = new URLSearchParams({
+        email: email,
+        password: password
+      });
+      
+      const url = `${BASE_URL}/login?${params.toString()}`;
+      console.log('Making request to:', url); // Debug log
+      
+      const response = await fetch(url, { 
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
       if (!response.ok) {
         throw new Error("Wrong credentials or authentication error");
       }
-      const data = await response.json();
+      
+      // Check if response is JSON or plain text
+      const contentType = response.headers.get("content-type");
+      let token;
+      
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        token = data.token;
+      } else {
+        // If it's plain text, the response body is the token itself
+        token = await response.text();
+      }
+      
       // Save token and email in localStorage
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", token);
       localStorage.setItem("email", email);
-      // Optionally redirect or show success
-      alert("Login successful!");
+      
+      // Show success toast
+      toast.success("Login successful!");
+      
+      // Fetch user data to determine role
+      await fetchUserDataAndNavigate(email);
+      
     } catch (err) {
-      setError(err.message);
+      console.error('Login error:', err);
+      const errorMessage = err.message || "Login failed. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
+  const fetchUserDataAndNavigate = async (emailId) => {
+    try {
+      const userDataUrl = `${BASE_URL}/data/${encodeURIComponent(emailId)}`;
+      console.log('Fetching user data from:', userDataUrl);
+      
+      const response = await fetch(userDataUrl, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      
+      const userData = await response.json();
+      console.log('User data:', userData);
+      
+      // Store user data in localStorage
+      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("userRole", userData.role);
+      localStorage.setItem("fullName", userData.fullName);
+      
+      // Navigate based on role
+      if (userData.role === "ROLE_FACILITY_OWNER") {
+        navigate('/facility-owner-dashboard');
+      } else if (userData.role === "ROLE_USER") {
+        navigate('/dashboard');
+      } else {
+        // Default fallback
+        navigate('/dashboard');
+      }
+      
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      toast.error("Failed to fetch user data. Redirecting to default dashboard.");
+      // Fallback navigation
+      navigate('/dashboard');
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className={styles["rc-page"]}>
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            style: {
+              background: '#10B981',
+            },
+          },
+          error: {
+            duration: 4000,
+            style: {
+              background: '#EF4444',
+            },
+          },
+        }}
+      />
       <div className={styles["rc-shell"]}>
-        {/* Left panel (image / hero) */}
+        {/* Left panel (hero image) */}
         <aside className={styles["rc-left"]}>
           <div className={styles["rc-left-inner"]}>
-            {/* Replace this with an <img /> or background image if you want */}
-            <div className={styles["rc-hero"]}>IMAGE</div>
+            <div className={styles["rc-hero"]}>
+              <img 
+                src="https://i.pinimg.com/736x/9c/d6/ce/9cd6ce5a4c51da24951e670c33b7d530.jpg" 
+                alt="QuickCourt Sports Platform" 
+                className={styles["hero-image"]}
+              />
+            </div>
           </div>
         </aside>
 
-        {/* Right panel (login) */}
+        {/* Right panel (login form) */}
         <main className={styles["rc-right"]} aria-labelledby="login-heading">
           <div className={styles["rc-card"]}>
             <h1 id="login-heading" className={styles["brand"]}>
-              QUICKCOURT
+              QuickCourt
             </h1>
-            <p className={styles["subtitle"]}>LOGIN</p>
+            <p className={styles["subtitle"]}>Welcome back! Please sign in to your account.</p>
 
             <form className={styles["rc-form"]} onSubmit={handleSubmit}>
-              <label htmlFor="email" className={styles["label"]}>
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                className={styles["input"]}
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-
-              <label htmlFor="password" className={styles["label"]}>
-                Password
-              </label>
-              <div className={styles["input-with-icon"]}>
+              <div className={styles["form-group"]}>
+                <label htmlFor="email" className={styles["label"]}>
+                  Email Address
+                </label>
                 <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
                   className={styles["input"]}
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className={styles["pw-icon"]}
-                  aria-hidden="true"
-                >
-                  ●
-                </button>
+              </div>
+
+              <div className={styles["form-group"]}>
+                <label htmlFor="password" className={styles["label"]}>
+                  Password
+                </label>
+                <div className={styles["input-with-icon"]}>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    className={styles["input"]}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className={styles["pw-icon"]}
+                    onClick={togglePasswordVisibility}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? "👁️" : "👁️‍🗨️"}
+                  </button>
+                </div>
               </div>
 
               <button
@@ -95,25 +210,28 @@ export default function UserLogin() {
                 className={styles["btn"]}
                 disabled={loading}
               >
-                {loading ? "Logging in..." : "Login"}
+                {loading ? "Signing in..." : "Sign In"}
               </button>
             </form>
 
             {error && (
-              <div style={{ color: "red", marginTop: "10px" }}>{error}</div>
+              <div className={styles["error-message"]}>
+                {error}
+              </div>
             )}
 
             <div className={styles["links"]}>
-              <p className={styles["small"]}>
-                Don’t have an account?{" "}
-                <a href="#" className={styles["link"]}>
-                  Sign up
+              <p className={styles["signup-text"]}>
+                Don't have an account?{" "}
+                <a href="#signup" className={styles["link"]}>
+                  Create account
                 </a>
               </p>
-              <a href="#" className={`${styles["link"]} ${styles["tiny"]}`}>
-                Forgot password?
+              <a href="#forgot" className={styles["forgot-link"]}>
+                Forgot your password?
               </a>
             </div>
+
           </div>
         </main>
       </div>
