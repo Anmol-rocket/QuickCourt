@@ -1,5 +1,8 @@
 package com.kucp1127.odoohackathon_2025.Refund.Service;
 
+import com.kucp1127.odoohackathon_2025.Booking.Model.Booking;
+import com.kucp1127.odoohackathon_2025.Booking.Repository.BookingRepository;
+import com.kucp1127.odoohackathon_2025.EmailService.EmailService;
 import com.kucp1127.odoohackathon_2025.Refund.Model.RefundModel;
 import com.kucp1127.odoohackathon_2025.Refund.Repository.RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,12 @@ import java.util.Optional;
 public class RefundModelService {
 
     private final RefundRepository refundRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Autowired
     public RefundModelService(RefundRepository refundRepository) {
@@ -65,7 +74,23 @@ public class RefundModelService {
             return refund;
         }
         refund.setStatus("done");
+
+        emailService.sendSimpleEmail(refund.getUserEmail(),
+                "Regarding Processing of Refund",
+                "Dear User Your amount has been refunded...");
+
+
         // any additional business logic (refund payment call, notification) goes here
         return refundRepository.save(refund);
+    }
+
+    public Object getBookingDetailsByRefundId(Long refundId) {
+        Optional<RefundModel> refundModel = refundRepository.findById(refundId);
+        if (refundModel.isPresent()) {
+            RefundModel refund = refundModel.get();
+            Optional<Booking> booking = bookingRepository.findById(refund.getBookingId());
+            return booking.orElse(null);
+        }
+        return null;
     }
 }

@@ -10,6 +10,7 @@ import com.kucp1127.odoohackathon_2025.Booking.Model.MonthEarning;
 import com.kucp1127.odoohackathon_2025.Booking.Model.SlotPeriod;
 import com.kucp1127.odoohackathon_2025.Booking.Repository.BookingRepository;
 import com.kucp1127.odoohackathon_2025.Booking.Repository.FacilityEarningsRepository;
+import com.kucp1127.odoohackathon_2025.EmailService.EmailService;
 import com.kucp1127.odoohackathon_2025.Refund.Model.RefundModel;
 import com.kucp1127.odoohackathon_2025.Refund.Service.RefundModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final FacilityEarningsRepository earningsRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private RefundModelService refundModelService;
@@ -54,6 +58,8 @@ public class BookingService {
         booking.setCreatedAt(LocalDateTime.now());
         booking.setUpdatedAt(LocalDateTime.now());
         booking.setTotalPrice(BigDecimal.ZERO);
+
+
 
         // accumulate total price if your Booking.addSlot doesn't already do it
         BigDecimal total = BigDecimal.ZERO;
@@ -186,7 +192,15 @@ public class BookingService {
         refundModel.setAmount(String.valueOf(booking.getTotalPrice()));
         refundModelService.createRefund(refundModel);
 
-        bookingRepository.delete(booking);
+        emailService.sendSimpleEmail(booking.getUserEmail(),
+                "Regarding Cancellation of Booking",
+                "Dear User , Your Booking has been Cancelled and is in Pending state ," +
+                        " soon your Booking will be cancelled and refund will be initiated");
+
+
+
+        booking.setStatus("Cancelled");
+        bookingRepository.save(booking);
         return true;
 
     }
@@ -242,5 +256,9 @@ public class BookingService {
         }
 
         return months;
+    }
+
+    public Object getBookingByDate(String ownerEmail) {
+        return null;
     }
 }

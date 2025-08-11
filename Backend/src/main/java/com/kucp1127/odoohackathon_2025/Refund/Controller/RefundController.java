@@ -3,6 +3,7 @@ package com.kucp1127.odoohackathon_2025.Refund.Controller;
 import com.kucp1127.odoohackathon_2025.Refund.Model.RefundModel;
 import com.kucp1127.odoohackathon_2025.Refund.Service.RefundModelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +30,21 @@ public class RefundController {
         return ResponseEntity.ok(refundService.getRefundsByStatus("pending"));
     }
 
-    @GetMapping("/owner/{ownerMail}")
-    public ResponseEntity<List<RefundModel>> getRefundsByOwner(@PathVariable String ownerMail) {
+    // changed to request param
+    @GetMapping("/owner")
+    public ResponseEntity<List<RefundModel>> getRefundsByOwner(@RequestParam String ownerMail) {
         return ResponseEntity.ok(refundService.getRefundsByOwner(ownerMail));
     }
 
-    @GetMapping("/user/{userEmail}")
-    public ResponseEntity<List<RefundModel>> getRefundsByUser(@PathVariable String userEmail) {
+    // changed to request param
+    @GetMapping("/user")
+    public ResponseEntity<List<RefundModel>> getRefundsByUser(@RequestParam String userEmail) {
         return ResponseEntity.ok(refundService.getRefundsByUser(userEmail));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RefundModel> getById(@PathVariable Long id) {
+    // changed to request param
+    @GetMapping("/byId")
+    public ResponseEntity<RefundModel> getById(@RequestParam Long id) {
         return ResponseEntity.ok(refundService.getRefundById(id));
     }
 
@@ -50,16 +54,21 @@ public class RefundController {
         return ResponseEntity.status(201).body(created);
     }
 
-
-    @PostMapping("/{id}/process")
-    public ResponseEntity<RefundModel> processRefund(@PathVariable Long id) {
+    @PostMapping("/process")
+    public ResponseEntity<RefundModel> processRefund(@RequestParam Long id) {
         RefundModel processed = refundService.processRefund(id);
         return ResponseEntity.ok(processed);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRefund(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<Void> deleteRefund(@RequestParam Long id) {
         refundService.deleteRefund(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/bookingDetails")
+    public ResponseEntity<?> getBookingDetailsByRefundId(@RequestParam Long refundId) {
+        // TODO: implement fetching booking details using refundId
+        return ResponseEntity.ok(refundService.getBookingDetailsByRefundId(refundId));
     }
 }

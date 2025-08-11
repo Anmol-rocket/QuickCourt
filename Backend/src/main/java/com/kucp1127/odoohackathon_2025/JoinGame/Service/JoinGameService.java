@@ -31,6 +31,7 @@ public class JoinGameService {
         g.setGameName(req.gameName);
         g.setLocation(req.location);
         g.setTimeDate(req.timeDate);
+        g.setVenue(req.venue);
         g.setPlayersRequired(req.playersRequired);
         return gameRepository.save(g);
     }

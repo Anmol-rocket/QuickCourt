@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class GameRequest {
     public String gameName;
     public String location;
+    public String venue;
     public LocalDateTime timeDate;
     public int playersRequired;
 }
