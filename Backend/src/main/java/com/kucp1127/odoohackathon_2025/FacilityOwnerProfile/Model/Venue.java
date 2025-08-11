@@ -28,7 +28,7 @@ public class Venue {
     private List<String> amenities = new ArrayList<>();
 
     @Column(nullable = true)
-    private Integer rating;
+    private Integer rating=0;
     private String ownerMail;
 
     private List<Long> SportIds;

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 public class FacilityEarnings {
     @Id
-    private String facilityOwnerEmail; // primary key is owner email
+    private String facilityOwnerEmail;
 
     private BigDecimal totalEarnings = BigDecimal.ZERO;
 

@@ -5,7 +5,6 @@ import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Service.VenueService
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Model.Venue;
-
 import java.util.Optional;
 
 @RestController
@@ -54,7 +53,7 @@ public class VenueController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/verify/venueId")
+    @PutMapping("/verify/{venueId}")
     public ResponseEntity<Venue> verifyVenue(@PathVariable Long venueId) {
         return ResponseEntity.ok(venueService.verify(venueId));
     }

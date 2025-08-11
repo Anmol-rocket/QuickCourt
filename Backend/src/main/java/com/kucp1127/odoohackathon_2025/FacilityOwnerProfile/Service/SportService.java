@@ -74,4 +74,8 @@ public class SportService {
         return Optional.of(saved);
     }
 
+    public String getSport(Long id) {
+        Optional <Sport> opt = sportRepository.findById(id);
+        return opt.map(Sport::getName).orElse(null);
+    }
 }
