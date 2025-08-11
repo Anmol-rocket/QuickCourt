@@ -23,6 +23,7 @@ public class Game {
     private String gameName;
     private String location;
     private LocalDateTime timeDate;
+    private String venue;
     private int playersRequired;
     @ElementCollection
     private List<String> listOfUserEmailJoined = new ArrayList<>();

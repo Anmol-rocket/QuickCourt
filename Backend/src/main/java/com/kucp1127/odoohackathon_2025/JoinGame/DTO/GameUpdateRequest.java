@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class GameUpdateRequest {
     public String gameName;
     public String location;
+
     public LocalDateTime timeDate;
     public Integer playersRequired; // Integer so null means "no change"
 }

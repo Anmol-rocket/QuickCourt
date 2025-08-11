@@ -37,7 +37,7 @@ public class SportController {
     }
 
 
-    @PatchMapping("/{sportId}/venue")
+    @PutMapping("/{sportId}/venue")
     public ResponseEntity<Sport> updateSport(
                                              @PathVariable Long sportId,
                                              @RequestBody SportUpdateRequest req) {

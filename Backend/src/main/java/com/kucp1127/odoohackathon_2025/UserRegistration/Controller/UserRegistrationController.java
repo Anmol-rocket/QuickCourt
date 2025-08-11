@@ -96,4 +96,14 @@ public class UserRegistrationController {
         return ResponseEntity.ok(userRegistrationService.getAllRegistrations());
     }
 
+    @PostMapping("/ban")
+    public ResponseEntity<?> banUser(@RequestParam String username) {
+        return ResponseEntity.ok(userRegistrationService.banUser(username));
+    }
+
+    @GetMapping("/getName")
+    public ResponseEntity<?> getName(@RequestParam String username) {
+        return ResponseEntity.ok(userRegistrationService.getName(username));
+    }
+
 }

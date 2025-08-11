@@ -70,4 +70,19 @@ public class UserRegistrationService {
     public Object getAllRegistrations() {
         return userRepository.findAll();
     }
+
+    public Boolean banUser(String username) {
+        Optional<UserRegistrationsModel> userRegistrationsModel = userRepository.findById(username);
+        if(userRegistrationsModel.isPresent()){
+            userRegistrationsModel.get().setPassword("@@@@");
+            userRepository.save(userRegistrationsModel.get());
+            return true;
+        }
+        return false;
+    }
+
+    public String getName(String username){
+        Optional<UserRegistrationsModel> userRegistrationsModel = userRepository.findById(username);
+        return userRegistrationsModel.map(UserRegistrationsModel::getFullName).orElse(null);
+    }
 }

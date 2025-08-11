@@ -45,7 +45,7 @@ public class VenueController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{venueId}")
+    @PutMapping("/{venueId}")
     public ResponseEntity<Venue> updateVenue(@PathVariable Long venueId,
                                              @RequestBody VenueUpdateRequest req) {
         Optional<Venue> updated = venueService.updateVenue(venueId, req);
@@ -57,5 +57,6 @@ public class VenueController {
     public ResponseEntity<Venue> verifyVenue(@PathVariable Long venueId) {
         return ResponseEntity.ok(venueService.verify(venueId));
     }
+
 
 }

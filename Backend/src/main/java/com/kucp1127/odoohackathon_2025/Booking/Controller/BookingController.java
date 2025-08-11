@@ -52,6 +52,10 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getMonthlyTrendsofAmonth(ownerEmail));
     }
 
+    @GetMapping("/getBookingByDates")
+    public ResponseEntity<?> getBookingByDates(@RequestParam String ownerEmail){
+        return ResponseEntity.ok(bookingService.getBookingByDate(ownerEmail));
+    }
 
 
     @DeleteMapping("/cancelBooking/{id}")
