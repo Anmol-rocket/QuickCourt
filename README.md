@@ -1,158 +1,124 @@
-🏸 QuickCourt – Local Sports Booking Platform
-📌 Problem Statement
-Sports lovers often struggle to book local sports facilities like badminton courts, turf grounds, or tennis tables. The current process is slow, inefficient, and disconnected, causing:
+# 🏸 QuickCourt – Local Sports Booking Platform  
+
+## 📌 Problem Statement  
+Sports lovers often struggle to **book local sports facilities** like badminton courts, turf grounds, or tennis tables. The current process is **slow, inefficient, and disconnected**, causing:  
+- **Uncertainty about availability** – Players often travel to venues only to find slots already booked.  
+- **Lack of transparent information** – Missing details about amenities, pricing, and ratings.  
+- **Difficulty in connecting players** – No easy way to join matches or create game events.  
+- **Poor booking experience** – Manual processes that take too long to confirm.  
+- **No real-time updates** – Users cannot see instant changes in court availability.  
+
+---
+
+## 💡 Our Solution  
+**QuickCourt** is a **smart sports booking platform** designed to streamline the end-to-end booking journey. It provides:  
+- **Instant venue search** with powerful filters for sport type, location, and budget.  
+- **One-click booking** of courts with live availability updates using **WebSockets**.  
+- **Match creation & joining** features to connect players with similar interests.  
+- **Detailed venue insights** with ratings, photos, amenities, and reviews.  
+- **Smooth payment process** with confirmation and booking history tracking.  
+- **Community-driven features** for player engagement and trust-building.  
+
+---
+
+## ✨ Key Features  
+
+### 🏟 Venue Discovery & Booking  
+- **Advanced Search & Filters** – Search by sport type, venue type, price range, and rating.  
+- **Comprehensive Venue Details** – Amenities, photos, description, reviews, and operating hours.  
+- **Instant Booking Access** – Book without lengthy forms or delays.  
+- **Real-Time Slot Updates** – Avoid booking conflicts with live data.  
+- **Location-Based Suggestions** – Get venues closest to your current location.  
+- **Responsive UI** – Mobile-friendly design for bookings on the go.  
+
+---
+
+### 📅 Smart Court Booking System  
+- **Court & Time Slot Selection** – Pick exact courts and durations you want.  
+- **Dynamic Pricing** – Rates adjust based on court type, day, and time.  
+- **Booking Confirmation in Seconds** – Avoid waiting for manual approvals.  
+- **Simulated Payment Gateway** – Test transaction flows without real payments.  
+- **Booking History Tracking** – View, filter, and manage past bookings.  
+- **Easy Cancellation Option** – Cancel future bookings instantly with refund simulation.  
+
+---
+
+### 📊 Facility Owner Dashboard  
+- **Court & Venue Management** – Add, edit, or remove facility details.  
+- **Analytics & Trends** – Track daily, weekly, and monthly bookings.  
+- **Revenue Insights** – View earnings breakdown with charts.  
+- **Peak Hour Analysis** – Identify most profitable booking hours.  
+- **Slot Blocking Tool** – Reserve time slots for maintenance or events.  
+- **User Interaction Logs** – See which facilities users interact with the most.  
+
+---
+
+### 🔔 Real-Time Notifications & Communication  
+- **Instant Booking Alerts** – Get notified the second a booking is confirmed.  
+- **Cancellation Updates** – Receive alerts when a booking is cancelled.  
+- **Match Invitation System** – Invite friends or community members to join.  
+- **Live Chat Integration** – Direct communication between players and facility owners.  
+- **Admin Moderation Alerts** – Notify admins of disputes or suspicious activity.  
+- **Push Notifications Support** – Browser and mobile app notifications for real-time engagement.  
+
+---
+
+### 👤 User Profiles & Community Engagement  
+- **Customizable Profiles** – Add name, photo, and sports interests.  
+- **Booking History Overview** – Detailed log of past and upcoming games.  
+- **Community Match Creation** – Organize open matches for nearby players.  
+- **Review & Rating System** – Share experiences about venues and players.  
+- **Reward Points & Badges** – Earn recognition for active participation.  
+- **Friend & Team Connections** – Build sports teams and keep track of members.  
+
+---
+
+## 📱 Mobile App (Android) – New Addition  
+We have built a dedicated **Android application** for QuickCourt, focused on **end users (players)**. The mobile app is **user-only** (designed for players; facility owners manage venues via the web dashboard).
+
+**Platform & Libraries**  
+- **Language:** Kotlin  
+- **UI:** Jetpack Compose  
+- **Architecture:** MVVM (ViewModel + LiveData / StateFlow)  
+- **Networking:** Retrofit + OkHttp  
+- **Real-time:** WebSocket client (for live slot updates & notifications)  
+- **Persistence:** Room or DataStore (for caching user sessions & preferences)  
+
+**Mobile-Only Features**  
+- **QR-based Login & Verification**  
+  - **Fast QR Login:** Users can log in quickly by scanning a QR code generated by the web portal or sent via email.  
+  - **QR Verification at Venue:** After booking, the app shows a booking QR code that the facility scans to validate instantly.  
+  - **Secure Token Exchange:** QR codes carry a short-lived token for secure verification.  
+  - **One-Tap Check-in:** Present the QR to venue staff for instant entry.  
+  - **Offline QR Readiness:** Display cached booking QR codes for offline check-in, verification occurs once online.  
+
+- **User-First Experience**  
+  - Android app focuses solely on **player flows**: search, book, join matches, payments (simulated), view bookings, QR check-in, and invite friends.  
+  - Facility management features remain **web-only** for owners.  
+
+---
+
+## 🛠 Tech Stack  
 
-Uncertainty about availability – Players often travel to venues only to find slots already booked.
+- **Frontend (Web):** React.js ⚛️ – Dynamic, responsive, and fast UI.  
+- **Mobile (Android):** Kotlin + Jetpack Compose – Native app for users with QR login & verification.  
+- **Backend:** Java Spring Boot 🌱 – Secure, scalable, and maintainable backend logic.  
+- **Database:** PostgreSQL 🐘 – Robust, reliable, and relational database storage.  
+- **Real-Time Communication:** WebSockets 🔄 – Instant updates for bookings, cancellations, and match invites.  
+- **Other:** JWT for authentication, Retrofit (mobile), Room/DataStore (mobile).  
 
-Lack of transparent information – Missing details about amenities, pricing, and ratings.
+---
 
-Difficulty in connecting players – No easy way to join matches or create game events.
+## 👥 Team Members  
 
-Poor booking experience – Manual processes that take too long to confirm.
+- **Adarsh Dubey** – [adarshiitkota@gmail.com](mailto:adarshiitkota@gmail.com)  
+- **Anmol Upadhyay** – [2023kucp1128@iiitkota.ac.in](mailto:2023kucp1128@iiitkota.ac.in)  
+- **Ayush Singh** – [bestayush3@gmail.com](mailto:bestayush3@gmail.com)  
+- **Sauvir Wodehra** – [sauvirwodehras3136@gmail.com](mailto:sauvirwodehras3136@gmail.com)  
 
-No real-time updates – Users cannot see instant changes in court availability.
+---
 
-💡 Our Solution
-QuickCourt is a smart sports booking platform designed to streamline the end-to-end booking journey. It provides:
+## 🙏 Closing Note  
+We believe **QuickCourt** will redefine how sports enthusiasts **connect, book, and play**. With the **Android app** (Kotlin + Jetpack Compose) focused on player convenience and **secure QR-based login/verification**, QuickCourt offers a fast, transparent, and community-first booking experience.  
 
-Instant venue search with powerful filters for sport type, location, and budget.
-
-One-click booking of courts with live availability updates using WebSockets.
-
-Match creation & joining features to connect players with similar interests.
-
-Detailed venue insights with ratings, photos, amenities, and reviews.
-
-Smooth payment process with confirmation and booking history tracking.
-
-Community-driven features for player engagement and trust-building.
-
-✨ Key Features
-🏟 Venue Discovery & Booking
-Advanced Search & Filters – Search by sport type, venue type, price range, and rating.
-
-Comprehensive Venue Details – Amenities, photos, description, reviews, and operating hours.
-
-Instant Booking Access – Book without lengthy forms or delays.
-
-Real-Time Slot Updates – Avoid booking conflicts with live data.
-
-Location-Based Suggestions – Get venues closest to your current location.
-
-Responsive UI – Mobile-friendly design for bookings on the go.
-
-📅 Smart Court Booking System
-Court & Time Slot Selection – Pick exact courts and durations you want.
-
-Dynamic Pricing – Rates adjust based on court type, day, and time.
-
-Booking Confirmation in Seconds – Avoid waiting for manual approvals.
-
-Simulated Payment Gateway – Test transaction flows without real payments.
-
-Booking History Tracking – View, filter, and manage past bookings.
-
-Easy Cancellation Option – Cancel future bookings instantly with refund simulation.
-
-📊 Facility Owner Dashboard
-Court & Venue Management – Add, edit, or remove facility details.
-
-Analytics & Trends – Track daily, weekly, and monthly bookings.
-
-Revenue Insights – View earnings breakdown with charts.
-
-Peak Hour Analysis – Identify most profitable booking hours.
-
-Slot Blocking Tool – Reserve time slots for maintenance or events.
-
-User Interaction Logs – See which facilities users interact with the most.
-
-🔔 Real-Time Notifications & Communication
-Instant Booking Alerts – Get notified the second a booking is confirmed.
-
-Cancellation Updates – Receive alerts when a booking is cancelled.
-
-Match Invitation System – Invite friends or community members to join.
-
-Live Chat Integration – Direct communication between players and facility owners.
-
-Admin Moderation Alerts – Notify admins of disputes or suspicious activity.
-
-Push Notifications Support – Browser and mobile app notifications for real-time engagement.
-
-👤 User Profiles & Community Engagement
-Customizable Profiles – Add name, photo, and sports interests.
-
-Booking History Overview – Detailed log of past and upcoming games.
-
-Community Match Creation – Organize open matches for nearby players.
-
-Review & Rating System – Share experiences about venues and players.
-
-Reward Points & Badges – Earn recognition for active participation.
-
-Friend & Team Connections – Build sports teams and keep track of members.
-
-📱 Mobile App (Android) — New Addition
-We have built a dedicated Android application for QuickCourt, focused on end users (players). The mobile app is user-only (designed for players; facility owners continue to manage venues via the web dashboard).
-
-Platform & Libraries
-
-Language: Kotlin
-
-UI: Jetpack Compose
-
-Architecture: MVVM (ViewModel + LiveData / StateFlow)
-
-Networking: Retrofit + OkHttp
-
-Real-time: WebSocket client (for live slot updates & notifications)
-
-Persistence: Room or DataStore (for caching user sessions & preferences)
-
-Mobile-only features
-
-QR-based Login & Verification
-
-Fast QR Login: Users can log in quickly by scanning a QR code generated by the web portal or received via email — reduces friction for first-time or shared devices.
-
-QR Verification at Venue: After booking, the app shows a booking QR code that the facility scans on arrival to validate the booking instantly.
-
-Secure Token Exchange: QR codes carry a short-lived token; scanning triggers a secure verification call to the backend to confirm the booking and mark check-in.
-
-One-Tap Check-in: Scan or present the QR to the venue staff for immediate check-in without manual input.
-
-Offline QR Readiness: The app can display previously generated booking QR codes (with expiry) when network connectivity is flaky — verification occurs when connectivity resumes.
-
-User-First Experience
-
-The Android app is focused solely on player flows: search, book, join matches, payments (simulated), view bookings, QR check-in, and social features (invite friends).
-
-Facility management (adding courts, analytics) is not accessible from the Android app — that remains on the facility owner web dashboard.
-
-🛠 Tech Stack
-Frontend (Web): React.js ⚛️ – Dynamic, responsive, and fast UI.
-
-Mobile (Android): Kotlin + Jetpack Compose – Native app for users with QR login & verification.
-
-Backend: Java Spring Boot 🌱 – Secure, scalable, and maintainable backend logic.
-
-Database: PostgreSQL 🐘 – Robust, reliable, and relational database storage.
-
-Real-Time Communication: WebSockets 🔄 – Instant updates for bookings, cancellations, and match invites.
-
-Other: JWT for authentication, Retrofit (mobile), Room/DataStore (mobile).
-
-👥 Team Members
-Adarsh Dubey – adarshiitkota@gmail.com
-
-Anmol Upadhyay – 2023kucp1128@iiitkota.ac.in
-
-Ayush Singh – bestayush3@gmail.com
-
-Sauvir Wodehra – sauvirwodehras3136@gmail.com
-
-🙏 Closing Note
-We believe QuickCourt will redefine how sports enthusiasts connect, book, and play. With the new Android app (Kotlin + Jetpack Compose) focused on player convenience and secure QR-based login/verification, QuickCourt offers a fast, transparent, and community-first booking experience. Our mission is to encourage active lifestyles and stronger social connections — one booking at a time.
-
-“Sports is not just a game – it’s a bridge between people. Let’s make that bridge stronger, one booking at a time!” 🏆
+> _“Sports is not just a game – it’s a bridge between people. Let’s make that bridge stronger, one booking at a time!”_ 🏆
