@@ -1,35 +1,30 @@
 package com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Model;
 
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kucp1127.odoohackathon_2025.UserRegistration.Model.UserRegistrationsModel;
+import com.stripe.param.billing.AlertListParams;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Holds data specific to a user with the ROLE_FACILITY_OWNER.
- * This creates a clean separation of concerns from the core User entity.
- */
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class FacilityOwnerProfile {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String email;
+    @OneToMany(
+            mappedBy = "ownerProfile",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @JsonManagedReference("owner-venues")
+    private List<Venue> venues = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_email", referencedColumnName = "email")
-    private UserRegistrationsModel userRegistrationsModel;
 
-
-    @OneToMany(mappedBy = "ownerProfile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Venue> venues;
-
-    private boolean isApprovedByAdmin = false;
 }

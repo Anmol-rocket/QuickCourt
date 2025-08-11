@@ -2,6 +2,8 @@ package com.kucp1127.odoohackathon_2025.UserRegistration.Service;
 
 
 import com.kucp1127.odoohackathon_2025.EmailService.EmailService;
+import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Model.FacilityOwnerProfile;
+import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Repository.FacilityOwnerProfileRepository;
 import com.kucp1127.odoohackathon_2025.UserRegistration.ENUM.Role;
 import com.kucp1127.odoohackathon_2025.UserRegistration.Model.UserRegistrationsModel;
 import com.kucp1127.odoohackathon_2025.UserRegistration.Repository.UserRepository;
@@ -20,6 +22,9 @@ public class UserRegistrationService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private FacilityOwnerProfileRepository facilityOwnerProfileRepository;
+
     public Optional<UserRegistrationsModel> findRegistrationByUsername(String username) {
         return userRepository.findById(username);
     }
@@ -30,6 +35,9 @@ public class UserRegistrationService {
             String subject = "QuickCourt Registration - Verification Pending";
             String body = "Hello " + userRegistrationsModel.getFullName() + ",\n\nThank you for registering as a Facility Owner. Your account is now pending verification from our admin team. We will notify you once your account has been approved.\n\nBest regards,\nThe QuickCourt Team";
             emailService.sendSimpleEmail(userRegistrationsModel.getEmail(), subject, body);
+            FacilityOwnerProfile fp = new FacilityOwnerProfile();
+            fp.setEmail(userRegistrationsModel.getEmail());
+            facilityOwnerProfileRepository.save(fp);
         }
         else{
             String subject = "Welcome to QuickCourt!";
