@@ -16,4 +16,5 @@ public class VenueUpdateRequest {
     public String address;
     public List<String> photoUrls;
     public List<String> amenities;
+    private int rating;
 }

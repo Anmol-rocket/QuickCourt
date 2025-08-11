@@ -25,26 +25,27 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.createBooking(request));
     }
 
-    // optional helper: frontend may call this to get existing booked slots (you said frontend checks availability)
+
     @GetMapping("/slots")
     public ResponseEntity<List<SlotDTO>> getBookedSlots(@RequestParam Long venueId, @RequestParam Long sportId){
         return ResponseEntity.ok(bookingService.getBookedSlotsForVenueSport(venueId, sportId));
     }
 
-    @GetMapping("/user/{email}")
-    public ResponseEntity<List<BookingResponseDTO>> byUser(@PathVariable String email){
-        return ResponseEntity.ok(bookingService.getBookingsByUser(email));
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> get(@PathVariable String id){
+        return ResponseEntity.ok(bookingService.getBookingsByUser(id));
     }
 
-    @GetMapping("/owner/{email}")
-    public ResponseEntity<List<BookingResponseDTO>> byOwner(@PathVariable String email){
-        return ResponseEntity.ok(bookingService.getBookingsByOwner(email));
-    }
 
     @GetMapping("/earnings/{ownerEmail}")
     public ResponseEntity<FacilityEarnings> getEarnings(@PathVariable String ownerEmail){
         FacilityEarnings fe = earningsRepository.findById(ownerEmail)
-                .orElse(new FacilityEarnings(ownerEmail, java.math.BigDecimal.ZERO, java.time.LocalDateTime.now(), null));
+            .orElse(new FacilityEarnings(ownerEmail, java.math.BigDecimal.ZERO, java.time.LocalDateTime.now(), null));
         return ResponseEntity.ok(fe);
+    }
+
+    @DeleteMapping("/cancelBooking/{id}")
+    public ResponseEntity<?> cancelBooking(@PathVariable Long id){
+        return ResponseEntity.ok(bookingService.cancelBooking(id));
     }
 }

@@ -46,4 +46,10 @@ public class SportController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSport(@PathVariable Long id) {
+        return ResponseEntity.ok(sportService.getSport(id));
+    }
+
+
 }

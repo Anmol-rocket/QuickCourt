@@ -25,6 +25,7 @@ public class CommentController {
         Comment comment = new Comment();
         comment.setText(req.text);
         comment.setRating(req.rating);
+        comment.setUserEmail(req.authorEmail);
         Comment saved = commentService.addComment(comment, req.sportId);
         return ResponseEntity.ok(saved);
     }

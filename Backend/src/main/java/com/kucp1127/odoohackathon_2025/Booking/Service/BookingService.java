@@ -106,4 +106,23 @@ public class BookingService {
         }).collect(Collectors.toList()));
         return dto;
     }
+
+    public Boolean cancelBooking(Long id) {
+
+        Booking booking = bookingRepository.findById(id).orElse(null);
+        if (booking == null) {
+            return false;
+        }
+        FacilityEarnings fee = earningsRepository.findById(booking.getFacilityOwnerEmail()).orElse(null);
+        if (fee == null) {
+            return false;
+        }
+        fee.setTotalEarnings(
+                fee.getTotalEarnings().subtract(booking.getTotalPrice())
+        );
+        fee.setLastUpdated(LocalDateTime.now());
+        earningsRepository.save(fee);
+        return true;
+
+    }
 }
