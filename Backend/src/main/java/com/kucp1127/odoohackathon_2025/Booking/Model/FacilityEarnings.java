@@ -2,8 +2,8 @@ package com.kucp1127.odoohackathon_2025.Booking.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,9 +13,12 @@ public class FacilityEarnings {
     @Id
     private String facilityOwnerEmail;
 
-    private BigDecimal totalEarnings = BigDecimal.ZERO;
-
-    private LocalDateTime lastUpdated = LocalDateTime.now();
+    @ElementCollection
+    @CollectionTable(
+            name = "facility_monthly_earnings",
+            joinColumns = @JoinColumn(name = "facility_owner_email")
+    )
+    private List<MonthEarning> monthlyEarnings = new ArrayList<>();
 
     @Version
     private Long version;

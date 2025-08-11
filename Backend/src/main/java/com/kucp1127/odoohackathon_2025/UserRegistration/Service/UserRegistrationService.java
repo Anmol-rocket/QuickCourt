@@ -66,4 +66,8 @@ public class UserRegistrationService {
         }
         return null;
     }
+
+    public Object getAllRegistrations() {
+        return userRepository.findAll();
+    }
 }

@@ -64,7 +64,7 @@ public class SportService {
 
         Sport sport = opt.get();
 
-        // apply partial updates
+
         if (req.name != null) sport.setName(req.name);
         if (req.type != null) sport.setType(req.type);
         if (req.pricePerHour != null) sport.setPricePerHour(req.pricePerHour);
