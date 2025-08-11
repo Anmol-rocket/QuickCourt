@@ -1,218 +1,402 @@
-/* Base / Reset */
-:root{
-  --bg: #060606;
-  --panel-border: rgba(255,255,255,0.85);
-  --muted: rgba(255,255,255,0.65);
-  --accent: #6dd3ff; /* small blue link color */
-  --card-bg: transparent;
+/* QuickCourt Theme Variables */
+:root {
+  --bg: #F2EFE7;
+  --accent-1: #9ACBD0;
+  --accent-2: #48A6A7;
+  --accent-3: #2973B2;
+  --muted: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --border: rgba(0, 0, 0, 0.1);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --error: #ef4444;
+  --success: #10b981;
 }
 
-* { box-sizing: border-box; }
-html,body,#root { height: 100%; }
+/* Base Reset */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background: var(--bg);
-  color: #fff;
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Shell */
+/* Page Container */
 .rc-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--bg) 0%, #e8e5dd 100%);
 }
 
-/* Outer rounded container to mimic design */
+/* Main Shell */
 .rc-shell {
   width: 100%;
   max-width: 1100px;
   height: 86vh;
   min-height: 640px;
   display: flex;
-  border-radius: 14px;
-  border: 2px solid var(--panel-border);
+  border-radius: 20px;
   overflow: hidden;
-  background: rgba(255,255,255,0.02);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  background: var(--card-bg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
-/* Left hero (image) */
+/* Left Hero Panel */
 .rc-left {
-  flex: 1.1;                /* slightly bigger left area like mock */
+  flex: 1.1;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 280px;
-  border-right: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
   position: relative;
+}
+
+.rc-left::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  opacity: 0.3;
 }
 
 .rc-left-inner {
   width: 90%;
   height: 90%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
-/* placeholder hero area; replace with <img> or background-image */
 .rc-hero {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
-  border: 1px dashed rgba(255,255,255,0.06);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color: rgba(255,255,255,0.12);
-  font-weight: 700;
-  letter-spacing: 3px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Right panel (login card) */
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Right Login Panel */
 .rc-right {
   flex: 0.9;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: 3rem;
   min-width: 320px;
+  background: var(--card-bg);
 }
 
 .rc-card {
   width: 100%;
-  max-width: 360px;
-  text-align: left;
+  max-width: 380px;
 }
 
-/* Brand & labels */
+/* Branding */
 .brand {
-  font-size: 18px;
-  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
   text-align: center;
-  letter-spacing: 3px;
+  color: var(--accent-3);
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  text-align:center;
-  font-size: 12px;
-  margin: 8px 0 22px;
+  text-align: center;
+  font-size: 0.875rem;
+  margin: 0 0 2rem 0;
   color: var(--muted);
+  line-height: 1.5;
 }
 
-/* Form */
+/* Form Styles */
 .rc-form {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .label {
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
 }
 
 .input {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.02);
-  color: #fff;
-  font-size: 14px;
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary);
+  font-size: 0.875rem;
   outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .input:focus {
-  box-shadow: 0 0 0 3px rgba(109,211,255,0.06);
-  border-color: rgba(109,211,255,0.35);
+  border-color: var(--accent-3);
+  box-shadow: 0 0 0 3px rgba(41, 115, 178, 0.1);
+  background: rgba(255, 255, 255, 1);
 }
 
-/* small icon inside password field */
+.input::placeholder {
+  color: var(--muted);
+}
+
+/* Password Field with Icon */
 .input-with-icon {
   position: relative;
 }
 
 .pw-icon {
   position: absolute;
-  right: 8px;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  height: 28px;
-  width: 28px;
-  border-radius: 4px;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 6px;
   border: none;
-  background: rgba(255,255,255,0.02);
-  color: rgba(255,255,255,0.8);
+  background: transparent;
+  color: var(--muted);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-/* Login button */
+.pw-icon:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+/* Login Button */
 .btn {
-  margin-top: 6px;
-  display: block;
-  width: 140px;
-  height: 40px;
-  border-radius: 8px;
-  border: 1px solid var(--panel-border);
-  background: transparent;
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 3rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
   color: white;
   font-weight: 600;
+  font-size: 0.875rem;
   cursor: pointer;
-  align-self: center;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-/* Links area */
-.links {
-  margin-top: 18px;
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(41, 115, 178, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error Message */
+.error-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: var(--error);
+  font-size: 0.875rem;
   text-align: center;
+}
+
+/* Links Section */
+.links {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.signup-text {
+  margin: 0 0 1rem 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 0.875rem;
 }
 
 .link {
-  color: var(--accent);
+  color: var(--accent-3);
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
 }
 
-.tiny { display: block; margin-top: 6px; font-size: 11px; color: rgba(109,211,255,0.7);}
+.link:hover {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
 
-/* ---------- MOBILE (single column) ---------- */
+.forgot-link {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--accent-3);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
+
+/* Demo Info */
+.demo-info {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(154, 203, 208, 0.2);
+  text-align: center;
+}
+
+.demo-info p {
+  margin: 0.25rem 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.demo-info p:first-child {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+/* Mobile Responsive */
 @media (max-width: 900px) {
   .rc-shell {
     flex-direction: column;
     height: auto;
     max-width: 420px;
-    min-height: 520px;
+    min-height: 600px;
   }
 
   .rc-left {
-    width: 92%;
-    padding: 20px 0;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    min-height: 220px;
+    width: 100%;
+    min-height: 200px;
+    border-radius: 0;
   }
 
-  .rc-left-inner { width: 86%; height: 86%; }
+  .rc-left-inner {
+    width: 90%;
+    height: 90%;
+  }
 
-  .rc-right { padding: 20px; }
+  .rc-right {
+    padding: 2rem 1.5rem;
+  }
 
-  .brand { font-size: 20px; letter-spacing: 4px; }
-  .subtitle { margin-bottom: 16px; }
+  .brand {
+    font-size: 1.75rem;
+  }
 
-  .btn { width: 100%; }
+  .subtitle {
+    margin-bottom: 1.5rem;
+  }
 }
 
-/* Slight tweak for very small phones */
-@media (max-width: 380px) {
-  .rc-shell { padding: 12px; border-radius: 12px; }
-  .rc-left { min-height: 180px; }
-  .rc-card { max-width: 100%; }
+@media (max-width: 480px) {
+  .rc-page {
+    padding: 1rem;
+  }
+
+  .rc-shell {
+    border-radius: 16px;
+    min-height: 500px;
+  }
+
+  .rc-left {
+    min-height: 160px;
+  }
+
+  .rc-right {
+    padding: 1.5rem 1rem;
+  }
+
+  .rc-card {
+    max-width: 100%;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.btn:focus,
+.input:focus,
+.pw-icon:focus,
+.link:focus {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 2px;
+}
+
+/* Smooth Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rc-card {
+  animation: fadeIn 0.6s ease-out;
 }
