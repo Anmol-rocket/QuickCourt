@@ -31,18 +31,28 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookedSlotsForVenueSport(venueId, sportId));
     }
 
+    @GetMapping("/getByOwner")
+    public ResponseEntity<?> getByOwner(@RequestParam String ownerEmail){
+        return ResponseEntity.ok(bookingService.getBookingsByOwner(ownerEmail));
+    }
+
     @GetMapping("/user/{id}")
     public ResponseEntity<?> get(@PathVariable String id){
         return ResponseEntity.ok(bookingService.getBookingsByUser(id));
     }
 
 
-    @GetMapping("/earnings/{ownerEmail}")
-    public ResponseEntity<FacilityEarnings> getEarnings(@PathVariable String ownerEmail){
-        FacilityEarnings fe = earningsRepository.findById(ownerEmail)
-            .orElse(new FacilityEarnings(ownerEmail, java.math.BigDecimal.ZERO, java.time.LocalDateTime.now(), null));
-        return ResponseEntity.ok(fe);
+    @GetMapping("/monthlyTrends")
+    public ResponseEntity<?> getMonthlyTrends(@RequestParam String ownerEmail){
+        return ResponseEntity.ok(bookingService.getMonthlyTrends(ownerEmail));
     }
+
+    @GetMapping("/monthlyTrendsofAMonth")
+    public ResponseEntity<?> getMonthlyTrendsofAmonth(@RequestParam String ownerEmail){
+        return ResponseEntity.ok(bookingService.getMonthlyTrendsofAmonth(ownerEmail));
+    }
+
+
 
     @DeleteMapping("/cancelBooking/{id}")
     public ResponseEntity<?> cancelBooking(@PathVariable Long id){

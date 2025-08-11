@@ -91,4 +91,9 @@ public class UserRegistrationController {
         return ResponseEntity.internalServerError().body("Could not verify user try again later");
     }
 
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userRegistrationService.getAllRegistrations());
+    }
+
 }
