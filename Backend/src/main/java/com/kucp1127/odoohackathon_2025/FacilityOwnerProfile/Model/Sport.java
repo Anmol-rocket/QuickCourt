@@ -24,13 +24,6 @@ public class Sport {
     private String operatingHours;
 
     private Double averageRating = 0.0;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "venue_id", nullable = false)
-    @JsonBackReference("venue-sports")
-    private Venue venue;
-
-    @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("sport-comments")
-    private List<Comment> comments = new ArrayList<>();
+    private Long venueId;
+    List<Long> commentIds = new ArrayList<>();
 }

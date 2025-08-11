@@ -25,8 +25,7 @@ public class CommentController {
         Comment comment = new Comment();
         comment.setText(req.text);
         comment.setRating(req.rating);
-        // ... set author etc via service
-        Comment saved = commentService.addComment(comment, req.authorEmail, req.sportId, req.venueId, req.parentCommentId);
+        Comment saved = commentService.addComment(comment, req.sportId);
         return ResponseEntity.ok(saved);
     }
 
@@ -36,8 +35,4 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getCommentsForSport(sportId));
     }
 
-    @GetMapping("/{id}/replies")
-    public ResponseEntity<?> getReplies(@PathVariable Long id) {
-        return ResponseEntity.ok(commentService.getReplies(id));
-    }
 }

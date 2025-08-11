@@ -17,14 +17,5 @@ import java.util.List;
 public class FacilityOwnerProfile {
     @Id
     private String email;
-    @OneToMany(
-            mappedBy = "ownerProfile",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    @JsonManagedReference("owner-venues")
-    private List<Venue> venues = new ArrayList<>();
-
-
+    private List<Long> facilityIds;
 }

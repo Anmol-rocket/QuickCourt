@@ -1,9 +1,12 @@
 package com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Controller;// VenueController.java
 
+import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.DTO.VenueUpdateRequest;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Service.VenueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Model.Venue;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/venues")
@@ -27,6 +30,11 @@ public class VenueController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllVenue() {
+        return ResponseEntity.ok(venueService.getAllVenue());
+    }
+
     @GetMapping("/allVenues/{ownerEmail}")
     public ResponseEntity<?> getAllVenues(@PathVariable String ownerEmail) {
         return ResponseEntity.ok(venueService.getVenuesByOwnerEmail(ownerEmail));
@@ -37,4 +45,18 @@ public class VenueController {
         venueService.deleteVenueByRemovingFromOwner(email, id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{venueId}")
+    public ResponseEntity<Venue> updateVenue(@PathVariable Long venueId,
+                                             @RequestBody VenueUpdateRequest req) {
+        Optional<Venue> updated = venueService.updateVenue(venueId, req);
+        return updated.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/verify/venueId")
+    public ResponseEntity<Venue> verifyVenue(@PathVariable Long venueId) {
+        return ResponseEntity.ok(venueService.verify(venueId));
+    }
+
 }

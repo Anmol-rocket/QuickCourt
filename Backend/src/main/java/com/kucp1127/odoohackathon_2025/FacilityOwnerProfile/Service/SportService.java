@@ -1,5 +1,6 @@
 package com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Service;// SportService.java
 
+import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.DTO.SportUpdateRequest;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Repository.CommentRepository;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Repository.SportRepository;
 import com.kucp1127.odoohackathon_2025.FacilityOwnerProfile.Repository.VenueRepository;
@@ -26,14 +27,15 @@ public class SportService {
         this.commentRepository = commentRepository;
     }
 
+
     @Transactional
     public Sport addSportToVenue(Long venueId, Sport sport) {
         Venue venue = venueRepository.findById(venueId)
                 .orElseThrow(() -> new IllegalArgumentException("Venue not found: " + venueId));
-        sport.setVenue(venue); // owning side
-        venue.getSports().add(sport); // keep both sides
+        sport.setVenueId(venueId);
+        Sport sport1 = sportRepository.save(sport);
+        venue.getSportIds().add(sport1.getId());
         sportRepository.save(sport);
-        venueRepository.save(venue);
         return sport;
     }
 
@@ -41,20 +43,35 @@ public class SportService {
         return sportRepository.findByVenueId(venueId);
     }
 
+
     @Transactional
-    public void recomputeAverageRating(Long sportId) {
-        Double avg = commentRepository.findAverageRatingBySportId(sportId);
-        double value = (avg == null) ? 0.0 : avg;
+    public boolean deleteSport(Long venueId, Long sportId, String ownerEmail) {
+        Optional<Venue> venue = venueRepository.findById(venueId);
+        if (venue.isPresent()) {
+            venue.get().getSportIds().remove(sportId);
+            venueRepository.save(venue.get());
+            sportRepository.deleteById(sportId);
+            return true;
+        }
+        return false;
+    }
 
-        // round to 2 decimals
-        double rounded = BigDecimal.valueOf(value)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
 
-        sportRepository.findById(sportId).ifPresent(s -> {
-            s.setAverageRating(rounded);
-            sportRepository.save(s);
-        });
+    @Transactional
+    public Optional<Sport> updateSport(Long sportId, SportUpdateRequest req) {
+        Optional<Sport> opt = sportRepository.findById(sportId);
+        if (opt.isEmpty()) return Optional.empty();
+
+        Sport sport = opt.get();
+
+        // apply partial updates
+        if (req.name != null) sport.setName(req.name);
+        if (req.type != null) sport.setType(req.type);
+        if (req.pricePerHour != null) sport.setPricePerHour(req.pricePerHour);
+        if (req.operatingHours != null) sport.setOperatingHours(req.operatingHours);
+
+        Sport saved = sportRepository.save(sport);
+        return Optional.of(saved);
     }
 
 }
