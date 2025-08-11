@@ -1,0 +1,218 @@
+/* Base / Reset */
+:root{
+  --bg: #060606;
+  --panel-border: rgba(255,255,255,0.85);
+  --muted: rgba(255,255,255,0.65);
+  --accent: #6dd3ff; /* small blue link color */
+  --card-bg: transparent;
+}
+
+* { box-sizing: border-box; }
+html,body,#root { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Shell */
+.rc-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+
+/* Outer rounded container to mimic design */
+.rc-shell {
+  width: 100%;
+  max-width: 1100px;
+  height: 86vh;
+  min-height: 640px;
+  display: flex;
+  border-radius: 14px;
+  border: 2px solid var(--panel-border);
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+/* Left hero (image) */
+.rc-left {
+  flex: 1.1;                /* slightly bigger left area like mock */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+
+.rc-left-inner {
+  width: 90%;
+  height: 90%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* placeholder hero area; replace with <img> or background-image */
+.rc-hero {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px dashed rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: rgba(255,255,255,0.12);
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+/* Right panel (login card) */
+.rc-right {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  min-width: 320px;
+}
+
+.rc-card {
+  width: 100%;
+  max-width: 360px;
+  text-align: left;
+}
+
+/* Brand & labels */
+.brand {
+  font-size: 18px;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  text-align:center;
+  font-size: 12px;
+  margin: 8px 0 22px;
+  color: var(--muted);
+}
+
+/* Form */
+.rc-form {
+  display: grid;
+  gap: 10px;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 3px rgba(109,211,255,0.06);
+  border-color: rgba(109,211,255,0.35);
+}
+
+/* small icon inside password field */
+.input-with-icon {
+  position: relative;
+}
+
+.pw-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 28px;
+  width: 28px;
+  border-radius: 4px;
+  border: none;
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Login button */
+.btn {
+  margin-top: 6px;
+  display: block;
+  width: 140px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: center;
+}
+
+/* Links area */
+.links {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.tiny { display: block; margin-top: 6px; font-size: 11px; color: rgba(109,211,255,0.7);}
+
+/* ---------- MOBILE (single column) ---------- */
+@media (max-width: 900px) {
+  .rc-shell {
+    flex-direction: column;
+    height: auto;
+    max-width: 420px;
+    min-height: 520px;
+  }
+
+  .rc-left {
+    width: 92%;
+    padding: 20px 0;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    min-height: 220px;
+  }
+
+  .rc-left-inner { width: 86%; height: 86%; }
+
+  .rc-right { padding: 20px; }
+
+  .brand { font-size: 20px; letter-spacing: 4px; }
+  .subtitle { margin-bottom: 16px; }
+
+  .btn { width: 100%; }
+}
+
+/* Slight tweak for very small phones */
+@media (max-width: 380px) {
+  .rc-shell { padding: 12px; border-radius: 12px; }
+  .rc-left { min-height: 180px; }
+  .rc-card { max-width: 100%; }
+}
