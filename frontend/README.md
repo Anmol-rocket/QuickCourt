@@ -282,13 +282,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 📞 Support
 
-For support, email team@infinityloop.dev or join our Slack channel.
+For support, email edura.learningapp@gmail.com
 
-### 🔗 Links
-
-- [Live Demo](https://quickcourt.infinityloop.dev)
-- [Backend Repository](https://github.com/infinityloop/quickcourt-backend)
-- [API Documentation](https://api.quickcourt.infinityloop.dev/docs)
 
 ---
 
