@@ -1,0 +1,633 @@
+/* CourtBooking.module.css */
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.page.fadeIn {
+  opacity: 1;
+}
+
+/* Header Styles */
+.header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.logo h1 {
+  color: #48A6A7;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  color: #48A6A7;
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+.breadcrumbLink:hover {
+  color: #357a7b;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loginButton {
+  background: #48A6A7;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loginButton:hover {
+  background: #357a7b;
+  transform: translateY(-1px);
+}
+
+.avatarInitials {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.backBtn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.backBtn:hover {
+  background: #f8fafc;
+  color: #48A6A7;
+  transform: translateX(-2px);
+}
+
+/* Success Message */
+.successMessage {
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Main Content */
+.bookingContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+/* Venue Section */
+.venueSection {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.venueCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.venueImageContainer {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.venueImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.venueInfo {
+  padding: 2rem;
+}
+
+.venueHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.venueName {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.venueBadges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.verifiedBadge {
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.venueMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.starFilled {
+  color: #fbbf24;
+  font-size: 1.1rem;
+}
+
+.starEmpty {
+  color: #d1d5db;
+  font-size: 1.1rem;
+}
+
+.ratingText {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.locationInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+}
+
+.locationIcon {
+  font-size: 1.1rem;
+}
+
+.address {
+  font-weight: 500;
+}
+
+.venueDescription {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.amenitiesPreview {
+  margin-top: 1rem;
+}
+
+.amenitiesLabel {
+  color: #1e293b;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.amenitiesTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.amenityTag {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.moreAmenities {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Booking Section */
+.bookingSection {
+  position: relative;
+}
+
+.bookingCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.bookingTitle {
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Form Styles */
+.bookingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1e293b;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.labelIcon {
+  font-size: 1.1rem;
+}
+
+.operatingHoursMessage {
+  background: #f0f9ff;
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  color: #0c4a6e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.messageIcon {
+  font-size: 1.1rem;
+}
+
+.input,
+.select {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background: white;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #48A6A7;
+  box-shadow: 0 0 0 3px rgba(72, 166, 167, 0.1);
+}
+
+.loadingSelect {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+}
+
+.noSportsMessage {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fef3c7;
+  color: #92400e;
+  text-align: center;
+  font-weight: 500;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Price Display */
+.priceDisplay {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.priceDisplay strong {
+  color: #1e293b;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.sportTypeLabel {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.noPriceLabel {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Booking Summary */
+.bookingSummary {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.summaryTitle {
+  color: #1e293b;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  color: #64748b;
+}
+
+.summaryRow:last-child {
+  border-bottom: none;
+}
+
+.totalRow {
+  background: #48A6A7;
+  color: white;
+  margin: 1rem -1.5rem -1.5rem -1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0 0 12px 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Book Button */
+.bookButton {
+  background: #48A6A7;
+  color: white;
+  border: none;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.bookButton:hover:not(:disabled) {
+  background: #357a7b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(72, 166, 167, 0.3);
+}
+
+.bookButton:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.bookIcon {
+  font-size: 1.2rem;
+}
+
+/* Loading and Error States */
+.loadingContainer,
+.errorContainer {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContent {
+  text-align: center;
+  max-width: 400px;
+}
+
+.errorContent h2 {
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.errorContent p {
+  color: #64748b;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.backButton {
+  background: #48A6A7;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.backButton:hover {
+  background: #357a7b;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .bookingContent {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .venueSection {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .breadcrumb {
+    justify-content: center;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+  
+  .venueMetaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .timeRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .venueInfo {
+    padding: 1.5rem;
+  }
+  
+  .bookingCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .venueName {
+    font-size: 1.4rem;
+  }
+  
+  .bookingTitle {
+    font-size: 1.3rem;
+  }
+  
+  .summaryTitle {
+    font-size: 1.1rem;
+  }
+  
+  .venueImageContainer {
+    height: 200px;
+  }
+}
+
+/* Date Display Styles */
+.dateDisplay {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.025em;
+}
+
+.dateDisplay:empty {
+  display: none;
+}

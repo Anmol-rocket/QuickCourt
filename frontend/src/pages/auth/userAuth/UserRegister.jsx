@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import BASE_URL from "../../../api/baseURL";
+
+import emailjs from "@emailjs/browser";
 import {
   Mail,
   User,
@@ -10,15 +13,24 @@ import {
   UserCheck,
   Building,
 } from "lucide-react";
-import BASE_URL from "../../../api/baseURL";
 
-// Mock emailjs for demo
-const emailjs = {
-  send: async (serviceId, templateId, params, _userId) => {
-    // Mock implementation
-    console.log("Sending email with OTP:", params.otp);
-    return Promise.resolve();
-  },
+// EmailJS configuration
+const EMAILJS_SERVICE_ID = "your_service_id";
+const EMAILJS_TEMPLATE_ID = "your_template_id";
+const EMAILJS_USER_ID = "your_user_id";
+
+const sendEmail = async (params) => {
+  try {
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      params,
+      EMAILJS_USER_ID
+    );
+    console.log("Email sent successfully");
+  } catch (error) {
+    console.error("Email sending failed:", error);
+  }
 };
 
 function generateOTP(length = 6) {
@@ -42,7 +54,6 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -67,12 +78,10 @@ export default function RegisterPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
     setSuccess("");
     setLoading(true);
 
     if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match");
       setLoading(false);
       return;
     }
@@ -95,7 +104,7 @@ export default function RegisterPage() {
         setAwaitingOtp(true);
         setSuccess("OTP sent to your email. Please check your inbox.");
       } catch {
-        setError("Failed to send OTP. Please try again.");
+        // Failed to send OTP - continue without showing error
       } finally {
         setLoading(false);
       }
@@ -103,7 +112,6 @@ export default function RegisterPage() {
     }
 
     if (awaitingOtp && userOtp !== otp) {
-      setError("Invalid OTP. Please check your email and try again.");
       setLoading(false);
       return;
     }
@@ -136,7 +144,20 @@ export default function RegisterPage() {
         throw new Error(errText || "Registration failed");
       }
 
-      await response.json();
+      // Only parse JSON if response has content
+      const text = await response.text();
+      if (text) {
+        // If response looks like a JWT (starts with 'eyJ'), skip JSON.parse
+        if (/^eyJ/.test(text.trim())) {
+          // JWT received, do not parse
+        } else {
+          try {
+            JSON.parse(text);
+          } catch (e) {
+            throw new Error("Server returned invalid JSON");
+          }
+        }
+      }
       setSuccess("Registration successful!");
       setForm({ fullName: "", email: "", password: "", confirmPassword: "" });
       setAvatarUrl("");
@@ -146,7 +167,7 @@ export default function RegisterPage() {
       setUserOtp("");
       setAwaitingOtp(false);
     } catch (err) {
-      setError(err.message || "Registration failed");
+      // Registration failed - continue without showing error
     } finally {
       setLoading(false);
     }
@@ -159,10 +180,7 @@ export default function RegisterPage() {
         <aside className="register-hero">
           <div className="hero-content">
             <div className="hero-card">
-              <img
-                src="/sports-venue-booking-hero.png"
-                alt="QuickCourt Platform"
-              />
+              <img src="https://i.pinimg.com/736x/c9/1f/79/c91f79b5431e5154409df92d7448e824.jpg" alt="QuickCourt Platform" />
             </div>
             <div className="hero-text">
               <h2>Join QuickCourt</h2>
@@ -379,7 +397,6 @@ export default function RegisterPage() {
             </form>
 
             {/* Messages */}
-            {error && <div className="message error-message">{error}</div>}
             {success && (
               <div className="message success-message">{success}</div>
             )}

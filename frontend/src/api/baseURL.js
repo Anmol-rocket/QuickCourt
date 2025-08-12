@@ -1,2 +1,2 @@
-const BASE_URL = "http://192.168.102.247:8080";
+const BASE_URL = "http://10.57.111.123:8080";
 export default BASE_URL;

@@ -1,0 +1,1253 @@
+.dashboard {
+  --bg: #f2efe7;
+  --accent-1: #9acbd0;
+  --accent-2: #48a6a7;
+  --accent-3: #2973b2;
+  --muted: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --anim-fast: 180ms ease-out;
+  --anim-medium: 360ms cubic-bezier(0.2, 0.9, 0.2, 1);
+
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+/* Navbar Styles */
+.navbar {
+  background: var(--white);
+  box-shadow: 0 2px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1500;
+  padding: 1rem 2rem;
+}
+
+.navbarContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navbarBrand {
+  display: flex;
+  align-items: center;
+}
+
+.brandTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.navbarMenu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLink {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all var(--anim-fast);
+}
+
+.navLink:hover {
+  background: rgba(72, 166, 167, 0.1);
+  color: var(--accent-3);
+}
+
+.userSection {
+  position: relative;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all var(--anim-fast);
+}
+
+.userProfile:hover {
+  background: rgba(72, 166, 167, 0.1);
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.userEmail {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.userDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  min-width: 180px;
+  z-index: 2000;
+  margin-top: 0.5rem;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--anim-fast);
+  font-size: 0.875rem;
+}
+
+.dropdownItem:hover {
+  background: rgba(72, 166, 167, 0.1);
+}
+
+.dropdownDivider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0.5rem 0;
+}
+
+/* Floating Plus Button */
+.floatingPlusBtn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(41, 115, 178, 0.3);
+  transition: all var(--anim-medium);
+  z-index: 1000;
+}
+
+.floatingPlusBtn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(41, 115, 178, 0.4);
+}
+
+.floatingPlusBtn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modalContent {
+  background: var(--white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color var(--anim-fast);
+}
+
+.closeButton:hover {
+  background: #f8f9fa;
+}
+
+/* Form Styles */
+.venueForm {
+  padding: 1.5rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.formInput,
+.formTextarea,
+.formSelect {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all var(--anim-fast);
+  background: var(--white);
+}
+
+.formInput:focus,
+.formTextarea:focus,
+.formSelect:focus {
+  outline: none;
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(72, 166, 167, 0.1);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkboxGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.checkboxInput {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-2);
+}
+
+.checkboxLabel {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+/* Photo URL Area */
+.photoUrlContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.addPhotoButton {
+  padding: 0.75rem 1rem;
+  background: var(--accent-2);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--anim-fast);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addPhotoButton:hover {
+  background: var(--accent-3);
+}
+
+.photoUrlArea {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.addPhotoUrlBtn {
+  padding: 0.75rem 1rem;
+  background: var(--accent-2);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--anim-fast);
+  white-space: nowrap;
+}
+
+.addPhotoUrlBtn:hover {
+  background: var(--accent-3);
+}
+
+.photoPreviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.photoPreview {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #e0e0e0;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removePhotoBtn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.removePhotoBtn:hover {
+  background: #dc3545;
+  transform: scale(1.1);
+}
+
+/* Error Message */
+.errorMessage {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Form Actions */
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cancelButton {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  background: var(--white);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+  font-weight: 500;
+}
+
+.cancelButton:hover {
+  border-color: var(--text-secondary);
+  background: #f8f9fa;
+}
+
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--anim-medium);
+  font-weight: 600;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(41, 115, 178, 0.3);
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitButton:disabled:hover,
+.cancelButton:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Header */
+.dashboardHeader {
+  background: var(--white);
+  box-shadow: 0 2px 10px var(--shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.welcomeTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0 0 0.5rem 0;
+}
+
+.welcomeSubtitle {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.timeDisplay {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+/* KPI Section */
+.kpiSection {
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.kpiCard {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform var(--anim-medium), box-shadow var(--anim-medium);
+}
+
+.kpiCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.kpiHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.kpiIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+
+.kpiTrend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #28a745;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.kpiValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.kpiTitle {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* Charts Section */
+.chartsSection {
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.chartWrapper {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.chartWrapper.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.chartControls {
+  margin-bottom: 1rem;
+}
+
+.periodSelector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.periodButton {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  background: var(--white);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.periodButton.active {
+  border-color: var(--accent-2);
+  background: rgba(72, 166, 167, 0.1);
+  color: var(--accent-3);
+}
+
+.chartTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+/* Fixed Line Chart - Start from Zero */
+.lineChart {
+  height: 200px;
+  position: relative;
+}
+
+.chartGrid {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+.chartBar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.barFill {
+  width: 100%;
+  max-width: 40px;
+  background: var(--accent-2);
+  border-radius: 4px 4px 0 0;
+  transition: height var(--anim-medium);
+  margin-bottom: 0.5rem;
+  min-height: 2px;
+}
+
+.barLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Doughnut Chart */
+.doughnutChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.doughnutCenter {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.totalAmount {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-3);
+}
+
+.totalLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.doughnutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legendText {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.legendValue {
+  font-weight: 600;
+  color: var(--accent-3);
+}
+
+/* Heatmap Chart */
+.heatmapChart {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
+}
+
+.heatmapCell {
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: all var(--anim-fast);
+}
+
+.heatmapCell:hover {
+  transform: scale(1.05);
+}
+
+.cellHour {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.cellValue {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Bottom Section */
+.bottomSection {
+  padding: 0 2rem 2rem;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Calendar */
+.calendarWrapper {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendarTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.calendarNav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color var(--anim-fast);
+}
+
+.navButton:hover {
+  background: #f8f9fa;
+}
+
+.currentMonth {
+  font-weight: 600;
+  color: var(--accent-3);
+}
+
+.calendarGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.calendarDay {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+  font-size: 0.875rem;
+}
+
+.calendarDay:not(.empty):hover {
+  background: rgba(72, 166, 167, 0.1);
+}
+
+.calendarDay.selected {
+  background: var(--accent-2);
+  color: var(--white);
+}
+
+.calendarDay.hasBooking {
+  background: rgba(34, 197, 94, 0.25); /* green-500 @ 25% */
+  border: 1px solid rgba(34, 197, 94, 0.6);
+  font-weight: 600;
+  color: #166534; /* green-700 text for contrast */
+}
+
+.calendarDay.empty {
+  cursor: default;
+}
+
+/* Upcoming Bookings */
+.upcomingBookings {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.bookingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bookingItem {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all var(--anim-fast);
+}
+
+.bookingItem:hover {
+  background: rgba(154, 203, 208, 0.1);
+}
+
+.bookingTime {
+  font-weight: 600;
+  color: var(--accent-3);
+  min-width: 80px;
+}
+
+.bookingDetails {
+  flex: 1;
+}
+
+.bookingCourt {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bookingCustomer {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.bookingSport {
+  color: var(--accent-2);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Fixed Vertical Bar Chart - Start from Zero */
+.verticalBarChart {
+  height: 280px;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.chartYAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+  padding-top: 10px;
+}
+
+.yAxisLabels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.yLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: right;
+  min-width: 40px;
+}
+
+.chartBarsContainer {
+  flex: 1;
+  position: relative;
+  height: 220px;
+}
+
+.chartGridLines {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gridLine {
+  height: 1px;
+  background: #f0f0f0;
+  width: 100%;
+}
+
+.chartBarsVertical {
+  display: flex;
+  align-items: flex-end;
+  height: 200px;
+  gap: 1rem;
+  padding: 10px 0 0 0;
+  position: relative;
+  z-index: 2;
+}
+
+.chartBarVertical {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  justify-content: flex-end;
+}
+
+.barFillVertical {
+  width: 100%;
+  max-width: 60px;
+  background: var(--accent-3);
+  border-radius: 4px 4px 0 0;
+  transition: height var(--anim-medium);
+  margin-bottom: 0.5rem;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 2px;
+}
+
+.barFillVertical:hover {
+  transform: scaleY(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.barValueLabel {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-3);
+  background: var(--white);
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity var(--anim-fast);
+}
+
+.chartBarVertical:hover .barValueLabel {
+  opacity: 1;
+}
+
+.barLabelVertical {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Revenue Line Chart */
+.revenueLineChart {
+  height: 250px;
+  padding: 1rem 0;
+}
+
+.lineChartContainer {
+  position: relative;
+  height: 100%;
+}
+
+.lineSvg {
+  width: 100%;
+  height: 200px;
+}
+
+.lineChartLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.lineLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.labelMonth {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.labelValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-3);
+}
+
+/* Chart Container */
+.chartContainer {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartWrapper.fullWidth {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .navbarContent {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .navbarMenu {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .userInfo {
+    display: none;
+  }
+
+  .floatingPlusBtn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+  }
+
+  .modalContent {
+    margin: 0.5rem;
+    max-height: 95vh;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .checkboxGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboardHeader {
+    padding: 1rem;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .welcomeTitle {
+    font-size: 1.5rem;
+  }
+
+  .kpiSection,
+  .chartsSection,
+  .bottomSection {
+    padding: 0 1rem;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heatmapChart {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  }
+
+  .periodSelector {
+    justify-content: center;
+  }
+
+  .calendarNav {
+    gap: 0.5rem;
+  }
+
+  .currentMonth {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboardHeader {
+    padding: 0.5rem;
+  }
+
+  .welcomeTitle {
+    font-size: 1.25rem;
+  }
+
+  .kpiSection,
+  .chartsSection,
+  .bottomSection {
+    padding: 0 0.5rem;
+  }
+
+  .chartWrapper,
+  .calendarWrapper,
+  .upcomingBookings {
+    padding: 1rem;
+  }
+
+  .heatmapChart {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  }
+
+  .heatmapCell {
+    padding: 0.5rem;
+  }
+
+  .cellHour {
+    font-size: 0.625rem;
+  }
+
+  .cellValue {
+    font-size: 0.875rem;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+
+  .photoUrlArea {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import styles from "./UserLogin.module.css";
-import BASE_URL from "../../../api/baseURL";
+import styles from "./AdminLogin.module.css";
+import BASE_URL from "../../api/baseURL";
 
-export default function UserLogin() {
+export default function AdminLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +24,7 @@ export default function UserLogin() {
       });
       
       const url = `${BASE_URL}/login?${params.toString()}`;
-      console.log('Making request to:', url); // Debug log
+      console.log('Making admin login request to:', url);
       
       const response = await fetch(url, { 
         method: "GET",
@@ -54,13 +54,13 @@ export default function UserLogin() {
       localStorage.setItem("email", email);
       
       // Show success toast
-      toast.success("Login successful!");
+      toast.success("Admin login successful!");
       
-      // Fetch user data to determine role
+      // Fetch user data to verify admin role
       await fetchUserDataAndNavigate(email);
       
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('Admin login error:', err);
       const errorMessage = err.message || "Login failed. Please try again.";
       setError(errorMessage);
       toast.error(errorMessage);
@@ -72,7 +72,7 @@ export default function UserLogin() {
   const fetchUserDataAndNavigate = async (emailId) => {
     try {
       const userDataUrl = `${BASE_URL}/data/${encodeURIComponent(emailId)}`;
-      console.log('Fetching user data from:', userDataUrl);
+      console.log('Fetching admin data from:', userDataUrl);
       
       const response = await fetch(userDataUrl, {
         method: "GET",
@@ -87,30 +87,37 @@ export default function UserLogin() {
       }
       
       const userData = await response.json();
-      console.log('User data:', userData);
+      console.log('Admin data:', userData);
+      
+      // Check if user has admin role
+      if (userData.role !== "ROLE_ADMIN") {
+        throw new Error("Access denied. Admin privileges required.");
+      }
       
       // Store user data in localStorage
       localStorage.setItem("userData", JSON.stringify(userData));
       localStorage.setItem("userRole", userData.role);
       localStorage.setItem("fullName", userData.fullName);
       
-      // Navigate based on role
-      if (userData.role === "ROLE_FACILITY_OWNER") {
-        navigate('/facility-owner-dashboard');
-      } else if (userData.role === "ROLE_ADMIN") {
-        navigate('/admin/dashboard');
-      } else if (userData.role === "ROLE_USER") {
-        navigate('/dashboard');
-      } else {
-        // Default fallback
-        navigate('/dashboard');
-      }
+      // Navigate to admin dashboard
+      navigate('/admin/dashboard');
       
     } catch (err) {
-      console.error('Error fetching user data:', err);
-      toast.error("Failed to fetch user data. Redirecting to default dashboard.");
-      // Fallback navigation
-      navigate('/dashboard');
+      console.error('Error fetching admin data:', err);
+      
+      // If access denied, clear localStorage and show error
+      if (err.message.includes("Access denied")) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        localStorage.removeItem("userData");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("fullName");
+        toast.error("Access denied. Only administrators can access this area.");
+        setError("Access denied. Only administrators can access this area.");
+      } else {
+        toast.error("Failed to fetch admin data. Please try again.");
+        setError("Failed to fetch admin data. Please try again.");
+      }
     }
   };
 
@@ -123,33 +130,23 @@ export default function UserLogin() {
       <Toaster 
         position="top-right"
         toastOptions={{
-          duration: 3000,
+          duration: 4000,
           style: {
-            background: '#363636',
+            borderRadius: '12px',
+            background: '#333',
             color: '#fff',
-          },
-          success: {
-            duration: 3000,
-            style: {
-              background: '#10B981',
-            },
-          },
-          error: {
-            duration: 4000,
-            style: {
-              background: '#EF4444',
-            },
           },
         }}
       />
+      
       <div className={styles["rc-shell"]}>
-        {/* Left panel (hero image) */}
-        <aside className={styles["rc-left"]}>
+        {/* Left panel (hero section) */}
+        <aside className={styles["rc-left"]} role="img" aria-label="Admin portal hero image">
           <div className={styles["rc-left-inner"]}>
             <div className={styles["rc-hero"]}>
               <img 
-                src="https://i.pinimg.com/736x/9c/d6/ce/9cd6ce5a4c51da24951e670c33b7d530.jpg" 
-                alt="QuickCourt Sports Platform" 
+                src="https://i.pinimg.com/736x/d9/b0/6f/d9b06f40361b448f09fb282864e7fb4d.jpg" 
+                alt="QuickCourt Admin Portal" 
                 className={styles["hero-image"]}
               />
             </div>
@@ -162,7 +159,7 @@ export default function UserLogin() {
             <h1 id="login-heading" className={styles["brand"]}>
               QuickCourt
             </h1>
-            <p className={styles["subtitle"]}>Welcome back! Please sign in to your account.</p>
+            <p className={styles["subtitle"]}>Admin Portal - Please sign in with your administrator credentials.</p>
 
             <form className={styles["rc-form"]} onSubmit={handleSubmit}>
               <div className={styles["form-group"]}>
@@ -173,7 +170,7 @@ export default function UserLogin() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="admin@quickcourt.com"
                   className={styles["input"]}
                   required
                   value={email}
@@ -190,7 +187,7 @@ export default function UserLogin() {
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder="Enter your admin password"
                     className={styles["input"]}
                     required
                     value={password}
@@ -207,38 +204,26 @@ export default function UserLogin() {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className={styles["btn"]}
-                disabled={loading}
-              >
-                {loading ? "Signing in..." : "Sign In"}
+              <button type="submit" className={styles["btn"]} disabled={loading}>
+                {loading ? "Signing In..." : "Sign In as Admin"}
               </button>
             </form>
 
-            {error && (
-              <div className={styles["error-message"]}>
-                {error}
-              </div>
-            )}
+            {error && <div className={styles["error-message"]}>{error}</div>}
 
             <div className={styles["links"]}>
               <p className={styles["signup-text"]}>
-                Don't have an account?{" "}
-                <button 
-                  type="button"
-                  onClick={() => navigate("/register")} 
-                  className={styles["link"]}
-                  style={{ background: 'none', border: 'none', padding: 0, textDecoration: 'underline', cursor: 'pointer', color: 'inherit' }}
-                >
-                  Create account
-                </button>
+                Not an admin? <a href="/login" className={styles["link"]}>User Login</a>
               </p>
-              <a href="#forgot" className={styles["forgot-link"]}>
-                Forgot your password?
+              <a href="/facility-owner/login" className={styles["forgot-link"]}>
+                Facility Owner Login →
               </a>
             </div>
 
+            <div className={styles["demo-info"]}>
+              <h3>Admin Access</h3>
+              <p>This portal is restricted to system administrators only. If you need access, please contact your system administrator.</p>
+            </div>
           </div>
         </main>
       </div>

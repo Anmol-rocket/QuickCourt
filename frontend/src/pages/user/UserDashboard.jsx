@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import styles from "./UserDashboard.module.css"
 import { LocationService } from "../../utils/locationService"
+import BASE_URL from "../../api/baseURL"
 
 // Generate initials from name
 const getInitials = (name) => {
@@ -15,7 +16,135 @@ const getInitials = (name) => {
     .join("")
 }
 
-// MOCK DATA
+// API function to fetch sports for a venue
+const fetchVenueSports = async (venueId) => {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${BASE_URL}/api/sports/venue/${venueId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Failed to fetch sports for venue')
+    }
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching sports for venue:', error)
+    return []
+  }
+}
+
+// API function to fetch user data by email
+const fetchUserData = async (emailId) => {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${BASE_URL}/data/${emailId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Failed to fetch user data')
+    }
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return null
+  }
+}
+
+// API function to fetch venues
+const fetchVenues = async () => {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${BASE_URL}/api/venues`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Failed to fetch venues')
+    }
+    const venues = await response.json()
+    
+    // Filter venues based on owner password and verification status
+    const validVenues = []
+    
+    for (const venue of venues) {
+      // Only process verified venues
+      if (venue.verified !== true) {
+        continue
+      }
+      
+      // Check owner's password
+      if (venue.ownerMail) {
+        const userData = await fetchUserData(venue.ownerMail)
+        // Skip venue if owner's password is "@@@@" or user data couldn't be fetched
+        if (!userData || userData.password === "@@@@") {
+          continue
+        }
+      }
+      
+      validVenues.push(venue)
+    }
+    
+    // Transform API data to match our component structure and handle null ratings
+    const venuesWithPricing = await Promise.all(validVenues.map(async venue => {
+      // Handle image from photoUrls array
+      let venueImage = "https://via.placeholder.com/320x200/48A6A7/ffffff?text=No+Image";
+      if (venue.photoUrls && Array.isArray(venue.photoUrls) && venue.photoUrls.length > 0) {
+        // Use the first available image URL
+        venueImage = venue.photoUrls[0];
+      }
+      
+      // Fetch sports for this venue to get pricing
+      const sports = await fetchVenueSports(venue.id)
+      let lowestPrice = null
+      
+      if (sports && sports.length > 0) {
+        const prices = sports.map(sport => sport.pricePerHour).filter(price => price !== null && price !== undefined)
+        if (prices.length > 0) {
+          lowestPrice = Math.min(...prices)
+        }
+      }
+      
+      return {
+        id: venue.id,
+        name: venue.name,
+        image: venueImage,
+        rating: venue.rating || 0, // Handle null rating
+        location: venue.address || "Location not specified",
+        city: extractCityFromAddress(venue.address),
+        lowestPrice: lowestPrice, // Store the lowest price from sports
+        description: venue.description,
+        amenities: venue.amenities || [],
+        verified: venue.verified || false,
+        ownerMail: venue.ownerMail
+      }
+    }))
+    
+    return venuesWithPricing
+  } catch (error) {
+    console.error('Error fetching venues:', error)
+    return mockVenues // Fallback to mock data if API fails
+  }
+}
+
+// Helper function to extract city from address
+const extractCityFromAddress = (address) => {
+  if (!address) return "Unknown City"
+  const parts = address.split(',')
+  return parts.length >= 2 ? parts[parts.length - 2].trim() : "Unknown City"
+}
+
+// MOCK DATA (fallback)
 const mockVenues = [
   {
     id: 1,
@@ -24,7 +153,8 @@ const mockVenues = [
     rating: 4.8,
     location: "Downtown",
     city: "Mumbai",
-    pricePerHour: 25,
+    lowestPrice: 25,
+    verified: true,
   },
   {
     id: 2,
@@ -33,7 +163,8 @@ const mockVenues = [
     rating: 4.6,
     location: "Riverside",
     city: "Delhi",
-    pricePerHour: 30,
+    lowestPrice: 30,
+    verified: true,
   },
   {
     id: 3,
@@ -42,7 +173,8 @@ const mockVenues = [
     rating: 4.7,
     location: "City Center",
     city: "Bangalore",
-    pricePerHour: 20,
+    lowestPrice: 20,
+    verified: true,
   },
   {
     id: 4,
@@ -51,7 +183,8 @@ const mockVenues = [
     rating: 4.9,
     location: "Uptown",
     city: "Mumbai",
-    pricePerHour: 35,
+    lowestPrice: 35,
+    verified: true,
   },
 ]
 
@@ -68,19 +201,40 @@ export default function UserDashboard({
   userName = "Guest",
   onBookClick = (venueId) => console.log("Book venue:", venueId),
 }) {
-  const isLoggedIn = Boolean(localStorage.getItem("token"));
   const navigate = useNavigate();
   const [carouselIndex, setCarouselIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
-  const [showToast, setShowToast] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredVenues, setFilteredVenues] = useState(mockVenues)
+  const [venues, setVenues] = useState([]) // Changed from mockVenues to dynamic venues
+  const [filteredVenues, setFilteredVenues] = useState([])
   const [userCity, setUserCity] = useState(null)
+  const [loading, setLoading] = useState(true) // Add loading state
 
   // Entrance animation effect
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100)
     return () => clearTimeout(timer)
+  }, [])
+
+  // Fetch venues from API on mount
+  useEffect(() => {
+    const loadVenues = async () => {
+      setLoading(true)
+      try {
+        const fetchedVenues = await fetchVenues()
+        setVenues(fetchedVenues)
+        setFilteredVenues(fetchedVenues)
+      } catch (error) {
+        console.error('Failed to load venues:', error)
+        // Fallback to mock data if API fails
+        setVenues(mockVenues)
+        setFilteredVenues(mockVenues)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadVenues()
   }, [])
 
   // Check for stored location on mount
@@ -94,9 +248,9 @@ export default function UserDashboard({
   // Filter venues based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setFilteredVenues(mockVenues)
+      setFilteredVenues(venues)
     } else {
-      const filtered = mockVenues.filter(venue =>
+      const filtered = venues.filter(venue =>
         venue.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         venue.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
         venue.city.toLowerCase().includes(searchQuery.toLowerCase())
@@ -105,7 +259,7 @@ export default function UserDashboard({
     }
     // Reset carousel index when search results change
     setCarouselIndex(0)
-  }, [searchQuery])
+  }, [searchQuery, venues]) // Added venues as dependency
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -138,19 +292,11 @@ export default function UserDashboard({
   }
 
   const handleLoginClick = () => navigate('/login');
-  const handleGetStarted = () => navigate('/login');
-  const handleProfileClick = () => navigate('/profile');
+  const handleProfileClick = () => navigate('/dashboard/profile');
 
   const handleBookClick = (venueId) => {
-    if (isLoggedIn) {
-      navigate('/booking', { state: { venueId } });
-    } else {
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        navigate('/login');
-      }, 2000);
-    }
+    // Navigate to the dedicated booking page with venue ID
+    navigate(`/book/${venueId}`);
   };
 
   return (
@@ -164,13 +310,13 @@ export default function UserDashboard({
         <nav className={styles.nav} role="navigation">
           <ul>
             <li>
-              <a href="#home">Home</a>
+              <Link to="/dashboard">Home</Link>
             </li>
             <li>
-              <a href="#venues">Venues</a>
+              <Link to="/dashboard/venues">Venues</Link>
             </li>
             <li>
-              <a href="#sports">Sports</a>
+              <Link to="/dashboard/tournaments">Tournaments</Link>
             </li>
             <li>
               <a href="#about">About</a>
@@ -189,17 +335,11 @@ export default function UserDashboard({
             />
             <button type="submit" aria-label="Search">🔍</button>
           </form>
-          {isLoggedIn ? (
-            <button className={styles.loginButton} onClick={handleProfileClick} aria-label="Profile">
-              <div className={styles.avatarInitials}>
-                {getInitials(userName)}
-              </div>
-            </button>
-          ) : (
-            <button className={styles.loginButton} onClick={handleLoginClick} aria-label="Login or sign up">
-              {userName === "Guest" ? "Login" : userName}
-            </button>
-          )}
+          <button className={styles.loginButton} onClick={handleProfileClick} aria-label="Profile">
+            <div className={styles.avatarInitials}>
+              {getInitials(userName)}
+            </div>
+          </button>
         </div>
       </header>
 
@@ -212,7 +352,6 @@ export default function UserDashboard({
               Discover and book the best sports venues in your area. Connect with players and enjoy your favorite
               sports.
             </p>
-            <button className={styles.ctaButton} onClick={handleGetStarted}>Get Started</button>
           </div>
           <div className={styles.heroRight}>
             <div className={styles.heroCard}>
@@ -230,12 +369,17 @@ export default function UserDashboard({
             <h2>
               {searchQuery ? `Search Results for "${searchQuery}"` : "Book Venues"}
             </h2>
-            <Link to="/venues" className={styles.seeAll}>
+            <Link to="/dashboard/venues" className={styles.seeAll}>
               See All Venues →
             </Link>
           </div>
 
-          {filteredVenues.length === 0 ? (
+          {loading ? (
+            <div className={styles.loadingContainer}>
+              <div className={styles.loadingSpinner}></div>
+              <p>Loading venues...</p>
+            </div>
+          ) : filteredVenues.length === 0 ? (
             <div className={styles.noResults}>
               <p>No venues found matching your search. Try different keywords.</p>
             </div>
@@ -264,11 +408,21 @@ export default function UserDashboard({
                       <h3>{venue.name}</h3>
                       <div className={styles.rating}>
                         {renderStars(venue.rating)}
-                        <span>{venue.rating}</span>
+                        <span>{venue.rating > 0 ? venue.rating : "No rating"}</span>
                       </div>
                       <p className={styles.location}>📍 {venue.location}</p>
+                      {venue.verified && (
+                        <div className={styles.verifiedBadge}>
+                          ✅ Verified
+                        </div>
+                      )}
                       <div className={styles.venueFooter}>
-                        <span className={styles.price}>₹{venue.pricePerHour}/hr</span>
+                        <span className={styles.price}>
+                          {venue.lowestPrice !== null && venue.lowestPrice !== undefined 
+                            ? `Price starts from ₹${venue.lowestPrice}/hr`
+                            : 'Price on request'
+                          }
+                        </span>
                         <button className={styles.bookButton} onClick={() => handleBookClick(venue.id)}>
                           Book
                         </button>
@@ -290,16 +444,34 @@ export default function UserDashboard({
           )}
         </section>
 
-        {/* Popular Sports Section */}
+        {/* Popular Tournaments Section */}
         <section className={styles.sportsSection}>
-          <h2>Popular Sports</h2>
+          <h2>Join Tournaments</h2>
           <div className={styles.sportsGrid} role="list">
-            {mockSports.map((sport) => (
-              <div key={sport.id} className={styles.sportCard} role="listitem">
-                <img src={sport.image || "/placeholder.svg"} alt={sport.name} />
-                <span>{sport.name}</span>
-              </div>
-            ))}
+            <div className={styles.sportCard} role="listitem" onClick={() => navigate('/dashboard/tournaments')}>
+              <img src="https://i.pinimg.com/736x/90/4a/1a/904a1aa35e7996f73575caf90c98afb1.jpg" alt="Basketball Tournaments" />
+              <span>Basketball Tournaments</span>
+            </div>
+            <div className={styles.sportCard} role="listitem" onClick={() => navigate('/dashboard/tournaments')}>
+              <img src="https://i.pinimg.com/736x/c9/1f/79/c91f79b5431e5154409df92d7448e824.jpg" alt="Tennis Tournaments" />
+              <span>Tennis Tournaments</span>
+            </div>
+            <div className={styles.sportCard} role="listitem" onClick={() => navigate('/dashboard/tournaments')}>
+              <img src="https://i.pinimg.com/736x/c5/f7/fe/c5f7fe2c646a5f0dc466678c2d318076.jpg" alt="Soccer Tournaments" />
+              <span>Soccer Tournaments</span>
+            </div>
+            <div className={styles.sportCard} role="listitem" onClick={() => navigate('/dashboard/tournaments')}>
+              <img src="https://i.pinimg.com/736x/52/12/76/5212767f8fd7ec3d4aa5fb54d47cb86b.jpg" alt="Volleyball Tournaments" />
+              <span>Volleyball Tournaments</span>
+            </div>
+            <div className={styles.sportCard} role="listitem" onClick={() => navigate('/dashboard/tournaments')}>
+              <img src="https://i.pinimg.com/736x/2e/8b/3d/2e8b3d634b9cd14891bfbb00d0c4e7b5.jpg" alt="Badminton Tournaments" />
+              <span>Badminton Tournaments</span>
+            </div>
+            <div className={styles.sportCard} role="listitem" onClick={() => navigate('/dashboard/tournaments')}>
+              <img src="https://i.pinimg.com/1200x/71/c1/c8/71c1c82b6bd2ebcd998df85745093323.jpg" alt="Swimming Competitions" />
+              <span>Swimming Competitions</span>
+            </div>
           </div>
         </section>
       </main>
@@ -315,7 +487,7 @@ export default function UserDashboard({
             <h4>Quick Links</h4>
             <ul>
               <li>
-                <a href="#venues">Find Venues</a>
+                <Link to="/dashboard/venues">Find Venues</Link>
               </li>
               <li>
                 <a href="#sports">Browse Sports</a>
@@ -335,27 +507,6 @@ export default function UserDashboard({
           <p>&copy; 2024 QuickCourt. All rights reserved.</p>
         </div>
       </footer>
-
-      {/* Toast notification */}
-      {showToast && (
-        <div style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          backgroundColor: '#ff4757',
-          color: 'white',
-          padding: '16px 24px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-          zIndex: 9999,
-          fontSize: '14px',
-          fontWeight: '500',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)'
-        }}>
-          ⚠️ Please login to book a venue
-        </div>
-      )}
     </div>
   )
 }
