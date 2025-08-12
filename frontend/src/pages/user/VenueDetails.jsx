@@ -15,6 +15,18 @@ const getInitials = (name) => {
     .join("")
 }
 
+// Format date and time
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  })
+}
+
 // API function to fetch venue by ID
 const fetchVenueById = async (venueId) => {
   try {
@@ -46,7 +58,6 @@ const fetchVenueById = async (venueId) => {
       ownerMail: venue.ownerMail,
       sportIds: venue.sportIds || [],
       // Mock data for missing fields
-      pricePerHour: Math.floor(Math.random() * 50) + 20,
       indoor: Math.random() > 0.5,
       outdoor: Math.random() > 0.5,
       sports: ["Basketball", "Tennis", "Volleyball", "Badminton"],
@@ -59,6 +70,82 @@ const fetchVenueById = async (venueId) => {
   }
 }
 
+// API function to fetch comments for a venue
+const fetchVenueComments = async (venueId) => {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${BASE_URL}/api/comments/sport/${venueId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        return [] // No comments found
+      }
+      throw new Error('Failed to fetch comments')
+    }
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching comments:', error)
+    throw error
+  }
+}
+
+// API function to fetch overall rating for a venue
+const fetchVenueRating = async (venueId) => {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${BASE_URL}/api/comments/getRating/${venueId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        return 0 // No rating found
+      }
+      throw new Error('Failed to fetch venue rating')
+    }
+    
+    const rating = await response.json()
+    return typeof rating === 'number' ? rating : 0
+  } catch (error) {
+    console.error('Error fetching venue rating:', error)
+    return 0 // Return 0 as fallback
+  }
+}
+
+// API function to fetch sport details by venue and sport ID
+const fetchSportDetails = async (venueId, sportId) => {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${BASE_URL}/api/venues/${venueId}/sports/${sportId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch sport details')
+    }
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching sport details:', error)
+    return { name: `Sport ${sportId}` } // Fallback name
+  }
+}
+
 export default function VenueDetails({ userName = "Guest" }) {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -67,6 +154,12 @@ export default function VenueDetails({ userName = "Guest" }) {
   const [error, setError] = useState(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
+  const [comments, setComments] = useState([])
+  const [loadingComments, setLoadingComments] = useState(false)
+  const [commentsError, setCommentsError] = useState(null)
+  const [sportsData, setSportsData] = useState({})
+  const [overallRating, setOverallRating] = useState(0)
+  const [loadingRating, setLoadingRating] = useState(false)
   
   // Carousel refs
   const carouselRef = useRef(null)
@@ -83,6 +176,10 @@ export default function VenueDetails({ userName = "Guest" }) {
       try {
         const venueData = await fetchVenueById(id)
         setVenue(venueData)
+        
+        // Load comments and overall rating after venue data is loaded
+        loadComments(id)
+        loadOverallRating(id)
       } catch (err) {
         setError('Failed to load venue details. Please try again.')
         console.error('Error loading venue:', err)
@@ -95,6 +192,49 @@ export default function VenueDetails({ userName = "Guest" }) {
       loadVenueDetails()
     }
   }, [id])
+
+  // Function to load overall rating
+  const loadOverallRating = async (venueId) => {
+    setLoadingRating(true)
+    
+    try {
+      const rating = await fetchVenueRating(venueId)
+      setOverallRating(rating)
+    } catch (err) {
+      console.error('Error loading overall rating:', err)
+      setOverallRating(0) // Fallback to 0
+    } finally {
+      setLoadingRating(false)
+    }
+  }
+
+  // Function to load comments and associated sports data
+  const loadComments = async (venueId) => {
+    setLoadingComments(true)
+    setCommentsError(null)
+    
+    try {
+      const commentsData = await fetchVenueComments(venueId)
+      setComments(commentsData)
+      
+      // Fetch sport names for all unique sport IDs in comments
+      const uniqueSportIds = [...new Set(commentsData.map(comment => comment.sportId))]
+      const sportsPromises = uniqueSportIds.map(async (sportId) => {
+        const sportDetails = await fetchSportDetails(venueId, sportId)
+        return { [sportId]: sportDetails.name }
+      })
+      
+      const sportsResults = await Promise.all(sportsPromises)
+      const sportsMap = sportsResults.reduce((acc, sport) => ({ ...acc, ...sport }), {})
+      setSportsData(sportsMap)
+      
+    } catch (err) {
+      setCommentsError('Failed to load reviews.')
+      console.error('Error loading comments:', err)
+    } finally {
+      setLoadingComments(false)
+    }
+  }
 
   // Animation effect
   useEffect(() => {
@@ -127,7 +267,17 @@ export default function VenueDetails({ userName = "Guest" }) {
   }
 
   // Render star rating
-  const renderStars = (rating, count) => {
+  const renderStars = (rating, count, isLoading = false) => {
+    if (isLoading) {
+      return (
+        <div className={styles.rating}>
+          <div className={styles.stars}>
+            <span className={styles.loadingText}>Loading rating...</span>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className={styles.rating}>
         <div className={styles.stars}>
@@ -138,7 +288,7 @@ export default function VenueDetails({ userName = "Guest" }) {
           ))}
         </div>
         <span className={styles.ratingText}>
-          {rating} ({count} reviews)
+          {rating.toFixed(1)} {count !== undefined ? `(${count} reviews)` : '(Overall Rating)'}
         </span>
       </div>
     )
@@ -173,40 +323,47 @@ export default function VenueDetails({ userName = "Guest" }) {
     <div className={`${styles.page} ${isVisible ? styles.fadeIn : ""}`}>
       {/* Header */}
       <header className={styles.header}>
-        <div className={styles.logo}>
-          <h1>QuickCourt</h1>
-        </div>
-        <div className={styles.breadcrumb}>
-          <nav aria-label="Breadcrumb">
-            <button onClick={handleDashboardClick} className={styles.breadcrumbLink}>
-              Dashboard
-            </button> / 
-            <button onClick={() => navigate('/dashboard/venues')} className={styles.breadcrumbLink}>
-              Venues
-            </button> / 
-            <span>{venue.name}</span>
-          </nav>
-        </div>
-        <div className={styles.headerRight}>
-          {isLoggedIn ? (
-            <button className={styles.loginButton} onClick={handleProfileClick} aria-label="Profile">
-              <div className={styles.avatarInitials}>
-                {getInitials(userName)}
-              </div>
-            </button>
-          ) : (
-            <button className={styles.loginButton} onClick={handleLoginClick}>
-              Login
-            </button>
-          )}
+        <div className={styles.headerContent}>
+          <div className={styles.logo}>
+            <h1>QuickCourt</h1>
+          </div>
+          <div className={styles.breadcrumb}>
+            <nav aria-label="Breadcrumb">
+              <button onClick={handleDashboardClick} className={styles.breadcrumbLink}>
+                Dashboard
+              </button> 
+              <span className={styles.breadcrumbSeparator}>/</span>
+              <button onClick={() => navigate('/dashboard/venues')} className={styles.breadcrumbLink}>
+                Venues
+              </button> 
+              <span className={styles.breadcrumbSeparator}>/</span>
+              <span className={styles.breadcrumbCurrent}>{venue.name}</span>
+            </nav>
+          </div>
+          <div className={styles.headerRight}>
+            {isLoggedIn ? (
+              <button className={styles.loginButton} onClick={handleProfileClick} aria-label="Profile">
+                <div className={styles.avatarInitials}>
+                  {getInitials(userName)}
+                </div>
+              </button>
+            ) : (
+              <button className={styles.loginButton} onClick={handleLoginClick}>
+                Login
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
       <div className={styles.container}>
         {/* Back Button */}
-        <button onClick={handleBackClick} className={styles.backBtn}>
-          ← Back to Venues
-        </button>
+        <div className={styles.backButtonContainer}>
+          <button onClick={handleBackClick} className={styles.backBtn}>
+            <span className={styles.backIcon}>←</span>
+            Back to Venues
+          </button>
+        </div>
 
         {/* Main Content */}
         <div className={styles.venueContent}>
@@ -222,7 +379,7 @@ export default function VenueDetails({ userName = "Guest" }) {
                     {venue.images.map((image, index) => (
                       <div key={index} className={styles.carouselSlide}>
                         <img 
-                          src={image} 
+                          src={image || "/placeholder.svg"} 
                           alt={`${venue.name} - Image ${index + 1}`}
                           className={styles.carouselImage}
                           onError={(e) => {
@@ -286,13 +443,15 @@ export default function VenueDetails({ userName = "Guest" }) {
 
           {/* Venue Information */}
           <div className={styles.venueInfo}>
+            {/* Improved venue header layout with better spacing */}
             <div className={styles.venueHeader}>
               <div className={styles.titleSection}>
                 <h1 className={styles.venueName}>{venue.name}</h1>
-                <div className={styles.venuebadges}>
+                <div className={styles.venueBadges}>
                   {venue.verified && (
                     <span className={styles.verifiedBadge}>
-                      ✓ Verified
+                      <span className={styles.badgeIcon}>✓</span>
+                      Verified
                     </span>
                   )}
                   <span className={styles.typeBadge}>
@@ -300,79 +459,161 @@ export default function VenueDetails({ userName = "Guest" }) {
                   </span>
                 </div>
               </div>
-              
-              <div className={styles.priceSection}>
-                <span className={styles.price}>₹{venue.pricePerHour}</span>
-                <span className={styles.priceUnit}>/hour</span>
-              </div>
             </div>
 
-            {/* Rating and Location */}
+            {/* Better aligned rating and location section */}
             <div className={styles.venueMetaRow}>
-              {renderStars(venue.rating, venue.ratingCount)}
+              <div className={styles.ratingSection}>
+                {renderStars(overallRating, comments.length, loadingRating)}
+              </div>
               <div className={styles.locationInfo}>
                 <span className={styles.locationIcon}>📍</span>
                 <span className={styles.address}>{venue.address}</span>
               </div>
             </div>
 
-            {/* Description */}
-            <div className={styles.descriptionSection}>
-              <h3>About this venue</h3>
-              <p className={styles.description}>
-                {venue.description || "No description available for this venue."}
-              </p>
-            </div>
-
-            {/* Sports Available */}
-            <div className={styles.sportsSection}>
-              <h3>Sports Available</h3>
-              <div className={styles.sportsTags}>
-                {venue.sports.map((sport, index) => (
-                  <span key={index} className={styles.sportTag}>
-                    {sport}
-                  </span>
-                ))}
+            {/* Improved section spacing and typography */}
+            <div className={styles.contentSections}>
+              {/* Description */}
+              <div className={styles.descriptionSection}>
+                <h3 className={styles.sectionTitle}>About this venue</h3>
+                <p className={styles.description}>
+                  {venue.description || "No description available for this venue."}
+                </p>
               </div>
-            </div>
 
-            {/* Amenities */}
-            {venue.amenities.length > 0 && (
-              <div className={styles.amenitiesSection}>
-                <h3>Amenities</h3>
-                <div className={styles.amenitiesList}>
-                  {venue.amenities.map((amenity, index) => (
-                    <div key={index} className={styles.amenityItem}>
-                      <span className={styles.amenityIcon}>✓</span>
-                      <span>{amenity}</span>
-                    </div>
+              {/* Sports Available */}
+              <div className={styles.sportsSection}>
+                <h3 className={styles.sectionTitle}>Sports Available</h3>
+                <div className={styles.sportsTags}>
+                  {venue.sports.map((sport, index) => (
+                    <span key={index} className={styles.sportTag}>
+                      {sport}
+                    </span>
                   ))}
                 </div>
               </div>
-            )}
 
-            {/* Contact Information */}
-            <div className={styles.contactSection}>
-              <h3>Contact Information</h3>
-              <div className={styles.contactItem}>
-                <span className={styles.contactIcon}>📧</span>
-                <span>{venue.ownerMail}</span>
+              {/* Amenities */}
+              {venue.amenities.length > 0 && (
+                <div className={styles.amenitiesSection}>
+                  <h3 className={styles.sectionTitle}>Amenities</h3>
+                  <div className={styles.amenitiesList}>
+                    {venue.amenities.map((amenity, index) => (
+                      <div key={index} className={styles.amenityItem}>
+                        <span className={styles.amenityIcon}>✓</span>
+                        <span className={styles.amenityText}>{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Contact Information */}
+              <div className={styles.contactSection}>
+                <h3 className={styles.sectionTitle}>Contact Information</h3>
+                <div className={styles.contactItem}>
+                  <span className={styles.contactIcon}>📧</span>
+                  <span className={styles.contactText}>{venue.ownerMail}</span>
+                </div>
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Improved comments section layout */}
+            <div className={styles.commentsSection}>
+              <div className={styles.commentsSectionHeader}>
+                <h3 className={styles.sectionTitle}>Reviews & Comments</h3>
+                {comments.length > 0 && (
+                  <span className={styles.commentsCount}>
+                    {comments.length} review{comments.length !== 1 ? 's' : ''}
+                  </span>
+                )}
+              </div>
+              
+              {loadingComments ? (
+                <div className={styles.commentsLoading}>
+                  <div className={styles.spinner}></div>
+                  <p>Loading reviews...</p>
+                </div>
+              ) : commentsError ? (
+                <div className={styles.commentsError}>
+                  <p>{commentsError}</p>
+                </div>
+              ) : comments.length > 0 ? (
+                <div className={styles.commentsContainer}>
+                  {comments.length > 3 && (
+                    <div className={styles.scrollHint}>
+                      <span>Scroll to see all reviews</span>
+                    </div>
+                  )}
+                  <div className={styles.commentsList}>
+                    {comments.map((comment) => (
+                      <div key={comment.id} className={styles.commentItem}>
+                        <div className={styles.commentHeader}>
+                          <div className={styles.commentAuthor}>
+                            <div className={styles.authorAvatar}>
+                              {getInitials(comment.userEmail)}
+                            </div>
+                            <div className={styles.authorInfo}>
+                              <span className={styles.authorEmail}>{comment.userEmail}</span>
+                              <span className={styles.commentDate}>
+                                {formatDate(comment.createdAt)}
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.commentRating}>
+                            <div className={styles.stars}>
+                              {Array.from({ length: 5 }, (_, i) => (
+                                <span key={i} className={i < comment.rating ? styles.starFilled : styles.starEmpty}>
+                                  ★
+                                </span>
+                              ))}
+                            </div>
+                            <span className={styles.ratingValue}>({comment.rating})</span>
+                          </div>
+                        </div>
+                        <div className={styles.commentContent}>
+                          <p className={styles.commentText}>{comment.text}</p>
+                          {sportsData[comment.sportId] && (
+                            <span className={styles.commentSportTag}>
+                              {sportsData[comment.sportId]}
+                            </span>
+                          )}
+                        </div>
+                        <div className={styles.commentActions}>
+                          <button className={styles.voteButton}>
+                            <span className={styles.voteIcon}>👍</span>
+                            <span>{comment.upvotes}</span>
+                          </button>
+                          <button className={styles.voteButton}>
+                            <span className={styles.voteIcon}>👎</span>
+                            <span>{comment.downvotes}</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.noComments}>
+                  <p>No reviews yet. Be the first to leave a review!</p>
+                </div>
+              )}
+            </div>
+
+            {/* Better aligned action buttons */}
             <div className={styles.actionButtons}>
               <button className={styles.bookNowBtn} onClick={handleBookNow}>
                 <span className={styles.bookIcon}>🎯</span>
-                Book Now
+                <span>Book Now</span>
               </button>
               <button className={styles.shareBtn}>
                 <span className={styles.shareIcon}>🔗</span>
-                Share
+                <span>Share</span>
               </button>
               <button className={styles.favoriteBtn}>
                 <span className={styles.heartIcon}>🤍</span>
-                Add to Favorites
+                <span>Add to Favorites</span>
               </button>
             </div>
           </div>
