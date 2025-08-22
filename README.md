@@ -117,6 +117,15 @@ This results in **wasted time, underutilized resources, and poor user satisfacti
 - **Android Studio**
 - **Retrofit** for API calls
 
+- ### Frontend
+- **React.js**
+- **Stripe**
+- **EmailJS**
+- **Lucide React**
+- **QRCode**
+- **Recharts**
+- **React Hot Toast**
+
 ---
 
 ## 👨‍💻 Collaborators
