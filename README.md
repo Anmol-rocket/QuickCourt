@@ -117,7 +117,7 @@ This results in **wasted time, underutilized resources, and poor user satisfacti
 - **Android Studio**
 - **Retrofit** for API calls
 
-- ### Frontend
+### Frontend
 - **React.js**
 - **Stripe**
 - **EmailJS**
