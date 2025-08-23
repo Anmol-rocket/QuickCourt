@@ -1,14 +1,5 @@
 # 🏆 QuickCourt – Local Sports Booking Platform
 
-## 📜 Problem Statement
-Booking local sports facilities often involves **manual calls, in-person visits, and lack of real-time availability tracking**.  
-Players face difficulties finding open slots, joining games, or knowing whether their booking is confirmed.  
-Facility owners, on the other hand, struggle with **unorganized scheduling, overlapping bookings, and limited ways to verify reservations**.  
-This results in **wasted time, underutilized resources, and poor user satisfaction**.
-
----
-
-## 💡 Our Solution
 **QuickCourt** is a **comprehensive local sports booking platform** that connects **players** with **facility owners** in a single, seamless ecosystem.
 
 - **Players** can discover nearby sports venues, book slots, join community games, and leave feedback — all through an integrated booking system.
@@ -104,18 +95,11 @@ This results in **wasted time, underutilized resources, and poor user satisfacti
 ## 🛠 Tech Stack
 
 ### Backend
-- **Spring Boot (Java)**
-- **Spring Data JPA / Hibernate**
-- **MySQL / PostgreSQL**
-- **Maven**
-- **Lombok**
-- **REST APIs (JSON)**
-
-### Mobile App
-- **Kotlin**
-- **Jetpack Compose**
-- **Android Studio**
-- **Retrofit** for API calls
+- **Node.js**
+- **Express.js**
+- **PostgreSQL**
+- **Supabase**
+- **REST APIs**
 
 ### Frontend
 - **React.js**
@@ -126,31 +110,8 @@ This results in **wasted time, underutilized resources, and poor user satisfacti
 - **Recharts**
 - **React Hot Toast**
 
----
 
-## 👨‍💻 Collaborators
 
-| Name | Email |
-|------|-------|
-| Adarsh Dubey | adarshiitkota@gmail.com |
-| Anmol Upadhyay | 2023kucp1128@iiitkota.ac.in |
-| Ayush Singh | bestayush3@gmail.com |
-| Sauvir Wodehra | sauvirwodehras3136@gmail.com |
-
----
-
-## 📌 Repository Notes
-This repository contains **production-ready APIs** for **QuickCourt**, complemented by a fully functional **Android app** for booking verification.  
-It’s built following **enterprise-grade coding standards** to ensure **scalability, security, and maintainability**.
-
----
-
-## 🎯 Closing Note
-> **QuickCourt** is more than a booking platform — it’s a **sports community enabler**.  
-By integrating booking, verification, and communication, we’ve built a **complete ecosystem** for local sports.  
-We aim to **empower communities** to play more, connect better, and manage facilities efficiently. 🏏⚽🏀
-
----
 ### DEMO VIDEO link
 https://drive.google.com/file/d/1IDYlBv8OFWsvW4taal0nMkaY8F6nGBJr/view?usp=sharing
 
