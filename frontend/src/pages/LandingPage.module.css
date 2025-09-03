@@ -1,0 +1,853 @@
+/* CSS Variables */
+:root {
+  --bg: #f2efe7;
+  --accent-1: #9acbd0;
+  --accent-2: #48a6a7;
+  --accent-3: #2973b2;
+  --muted: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --anim-fast: 180ms ease-out;
+  --anim-medium: 360ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+/* Base Styles */
+.landingPage {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.fadeIn {
+  animation: fadeInUp 600ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+/* Header */
+.header {
+  background: var(--white);
+  box-shadow: 0 2px 20px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: color var(--anim-fast);
+  position: relative;
+}
+
+.nav a:hover {
+  color: var(--accent-3);
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-3);
+  transition: width var(--anim-medium);
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+.headerActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.loginButton {
+  background: transparent;
+  color: var(--accent-3);
+  border: 2px solid var(--accent-3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.loginButton:hover {
+  background: var(--accent-3);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.signupButton {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), box-shadow var(--anim-fast);
+}
+
+.signupButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(72, 166, 167, 0.4);
+}
+
+/* Hero Section */
+.hero {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, var(--bg) 0%, rgba(154, 203, 208, 0.1) 100%);
+}
+
+.heroContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.heroLeft {
+  animation: slideIn 800ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+}
+
+.heroActions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.ctaPrimary {
+  background: var(--accent-3);
+  color: var(--white);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-medium), box-shadow var(--anim-medium);
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(41, 115, 178, 0.4);
+}
+
+.ctaSecondary {
+  background: transparent;
+  color: var(--accent-3);
+  border: 2px solid var(--accent-3);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.ctaSecondary:hover {
+  background: var(--accent-3);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.heroStats {
+  display: flex;
+  gap: 2rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-3);
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Hero Carousel */
+.heroRight {
+  position: relative;
+}
+
+.heroCarousel {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px var(--shadow);
+  animation: float 6s ease-in-out infinite;
+}
+
+.heroImage {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  transition: transform var(--anim-medium);
+}
+
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+  z-index: 10;
+}
+
+.carouselButton:hover {
+  background: var(--white);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carouselButton:first-of-type {
+  left: 20px;
+}
+
+.carouselNext {
+  right: 20px;
+}
+
+.carouselDots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.dotActive {
+  background: var(--white);
+  transform: scale(1.2);
+}
+
+/* Section Headers */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.sectionHeader p {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Features Section */
+.features {
+  padding: 6rem 0;
+  background: var(--white);
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 16px;
+  background: var(--bg);
+  transition: transform var(--anim-medium), box-shadow var(--anim-medium);
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px var(--shadow);
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.featureDescription {
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Popular Venues Section */
+.popularVenues {
+  padding: 6rem 0;
+  background: var(--bg);
+}
+
+.venuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.venueCard {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform var(--anim-medium), box-shadow var(--anim-medium);
+}
+
+.venueCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.venueImageContainer {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.venueImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--anim-medium);
+}
+
+.venueCard:hover .venueImage {
+  transform: scale(1.1);
+}
+
+.venueOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity var(--anim-fast);
+}
+
+.venueCard:hover .venueOverlay {
+  opacity: 1;
+}
+
+.bookNowButton {
+  background: var(--accent-3);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast);
+}
+
+.bookNowButton:hover {
+  transform: translateY(-2px);
+}
+
+.venueContent {
+  padding: 1.5rem;
+}
+
+.venueName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.venueLocation {
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  font-size: 0.875rem;
+}
+
+.venueRating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.starFilled {
+  color: #ffd700;
+}
+
+.starHalf {
+  color: #ffd700;
+  opacity: 0.5;
+}
+
+.starEmpty {
+  color: #ddd;
+}
+
+.ratingText {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.venueSports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sportTag {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.venuePrice {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-3);
+}
+
+.sectionFooter {
+  text-align: center;
+}
+
+.viewAllButton {
+  background: transparent;
+  color: var(--accent-3);
+  border: 2px solid var(--accent-3);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.viewAllButton:hover {
+  background: var(--accent-3);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* Popular Sports Section */
+.popularSports {
+  padding: 6rem 0;
+  background: var(--white);
+}
+
+.sportsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.sportCard {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: var(--bg);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform var(--anim-medium), background-color var(--anim-fast);
+}
+
+.sportCard:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+}
+
+.sportIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.sportName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.sportVenues {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.sportCard:hover .sportVenues {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* How It Works Section */
+.howItWorks {
+  padding: 6rem 0;
+  background: var(--bg);
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+
+.step {
+  text-align: center;
+  position: relative;
+}
+
+.stepNumber {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 25px rgba(72, 166, 167, 0.3);
+}
+
+.stepTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.stepDescription {
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* CTA Section */
+.ctaSection {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+  color: var(--white);
+}
+
+.ctaContent {
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.ctaSubtitle {
+  font-size: 1.25rem;
+  margin: 0 0 2rem 0;
+  opacity: 0.9;
+}
+
+.ctaActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ctaSection .ctaPrimary {
+  background: var(--white);
+  color: var(--accent-3);
+}
+
+.ctaSection .ctaPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.ctaSection .ctaSecondary {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.ctaSection .ctaSecondary:hover {
+  background: var(--white);
+  color: var(--accent-3);
+}
+
+/* Footer */
+.footer {
+  background: var(--text-primary);
+  color: var(--white);
+  padding: 4rem 0 2rem;
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footerSection h3,
+.footerSection h4 {
+  margin-bottom: 1rem;
+  color: var(--accent-1);
+}
+
+.footerSection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerSection ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footerSection a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color var(--anim-fast);
+}
+
+.footerSection a:hover {
+  color: var(--accent-1);
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #333;
+  color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .heroContent {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroStats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav ul {
+    gap: 1rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .heroStats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 2rem;
+  }
+
+  .ctaActions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footerContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .hero {
+    padding: 2rem 0;
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .features,
+  .popularVenues,
+  .popularSports,
+  .howItWorks,
+  .ctaSection {
+    padding: 4rem 0;
+  }
+
+  .venuesGrid,
+  .sportsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaTitle {
+    font-size: 2rem;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus,
+a:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-1);
+}

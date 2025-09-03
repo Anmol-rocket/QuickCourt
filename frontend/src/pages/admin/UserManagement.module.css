@@ -1,0 +1,1256 @@
+/* CSS Variables */
+:root {
+  --bg: #f2efe7;
+  --accent-1: #9acbd0;
+  --accent-2: #48a6a7;
+  --accent-3: #2973b2;
+  --muted: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --anim-fast: 180ms ease-out;
+  --anim-medium: 360ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+.userManagement {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* Header Navigation */
+.headerNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--white);
+  box-shadow: 0 2px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color var(--anim-fast);
+  white-space: nowrap;
+}
+
+.nav a:hover {
+  color: var(--accent-3);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatarInitials {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2973b2, #48a6a7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.logoutButton {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), box-shadow var(--anim-fast);
+  font-size: 0.875rem;
+}
+
+.logoutButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 166, 167, 0.3);
+}
+
+.logoutButton:active {
+  transform: translateY(0) scale(0.995);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.filtersSection {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px var(--shadow);
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.searchBox {
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(154, 203, 208, 0.3);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color var(--anim-fast);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.filterSelect {
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(154, 203, 208, 0.3);
+  border-radius: 8px;
+  background: var(--white);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color var(--anim-fast);
+  min-width: 120px;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.tableContainer {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px var(--shadow);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.usersTable th {
+  background: rgba(154, 203, 208, 0.1);
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent-3);
+  border-bottom: 1px solid rgba(154, 203, 208, 0.2);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.usersTable td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid rgba(154, 203, 208, 0.1);
+  vertical-align: middle;
+}
+
+.usersTable tr:hover {
+  background: rgba(154, 203, 208, 0.05);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarInitials {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2973b2, #48a6a7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.profileAvatarInitials {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2973b2, #48a6a7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.profileStats {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 8px;
+}
+
+.profileStats p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.noBookings {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  background: rgba(154, 203, 208, 0.05);
+  border-radius: 8px;
+}
+
+.slotInfo {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: rgba(154, 203, 208, 0.05);
+  border-radius: 4px;
+}
+
+.slot {
+  margin: 0.25rem 0;
+  padding: 0.25rem 0.5rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+/* Facility Owner Profile Styles */
+.facilityOwnerInfo {
+  margin-top: 2rem;
+}
+
+.facilityOwnerInfo h4 {
+  color: var(--accent-3);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.ownerProfileCard {
+  background: rgba(154, 203, 208, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(154, 203, 208, 0.2);
+}
+
+.ownerProfileDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profileRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(154, 203, 208, 0.1);
+}
+
+.profileRow:last-child {
+  border-bottom: none;
+}
+
+.profileLabel {
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 120px;
+}
+
+.profileValue {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.verified {
+  color: var(--success);
+}
+
+.banned {
+  color: var(--danger);
+}
+
+.unverified {
+  color: var(--warning);
+}
+
+.noRating {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.avatarLink {
+  color: var(--accent-3);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.avatarLink:hover {
+  text-decoration: underline;
+}
+
+.facilityNote {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(72, 166, 167, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-2);
+}
+
+.facilityNote p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Simplified Facility Owner Section */
+.ownerNote {
+  padding: 1rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.ownerNote p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.userEmail {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.roleTag {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.statusTag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.activeStatus {
+  background: var(--success);
+  color: var(--white);
+}
+
+.bannedStatus {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.viewBtn {
+  background: transparent;
+  color: var(--accent-3);
+  border: 2px solid var(--accent-3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.viewBtn:hover {
+  background: var(--accent-3);
+  color: var(--white);
+}
+
+.banBtn {
+  background: var(--danger);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.banBtn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.unbanBtn {
+  background: var(--success);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.unbanBtn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.bannedLabel {
+  background: var(--danger);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+  border: none;
+  cursor: default;
+  opacity: 0.8;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modalContent {
+  background: var(--white);
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: var(--accent-3);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color var(--anim-fast);
+}
+
+.closeBtn:hover {
+  color: var(--text-primary);
+}
+
+.modalBody {
+  padding: 1.5rem;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 8px;
+}
+
+.profileAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profileInfo h3 {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary);
+}
+
+.profileInfo p {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.profileTags {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bookingHistory {
+  margin-bottom: 2rem;
+}
+
+.bookingHistory h4 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bookingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--bg);
+  border-radius: 8px;
+}
+
+.bookingInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bookingInfo strong {
+  color: var(--text-primary);
+}
+
+.bookingInfo span {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.bookingStatus {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.completed {
+  background: var(--success);
+  color: var(--white);
+}
+
+.cancelled {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: center;
+}
+
+.modalActions .banBtn,
+.modalActions .unbanBtn {
+  padding: 0.75rem 2rem;
+}
+
+.modalActions .bannedLabel {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+/* Loading and No Data States */
+@media (max-width: 1024px) {
+  .filtersSection {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .filters {
+    justify-content: center;
+  }
+}
+
+/* Venue Details Styles */
+.venueDetails {
+  margin-top: 1rem;
+}
+
+.ownerEmailInfo {
+  background: rgba(154, 203, 208, 0.1);
+  border: 1px solid var(--accent-1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.ownerEmailInfo p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--accent-3);
+}
+
+.venueCard {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.venueHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.venueName {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--accent-3);
+}
+
+.venueRating {
+  font-size: 0.875rem;
+  color: var(--warning);
+  font-weight: 500;
+}
+
+.venueStatus {
+  display: flex;
+  align-items: center;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.verifiedBadge {
+  background: var(--success);
+  color: var(--white);
+}
+
+.pendingBadge {
+  background: var(--warning);
+  color: var(--white);
+}
+
+.venueInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.venueRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.venueLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.venueValue {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.amenitiesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sportsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.amenityTag {
+  background: var(--accent-1);
+  color: var(--accent-3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.sportTag {
+  background: var(--accent-2);
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.noAmenities,
+.noSports {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.commentItem {
+  background: rgba(0, 0, 0, 0.02);
+  border-left: 3px solid var(--accent-1);
+  padding: 0.75rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.commentText {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+}
+
+.commentAuthor {
+  font-size: 0.75rem;
+  color: var(--accent-3);
+  font-weight: 500;
+}
+
+.moreComments {
+  color: var(--accent-3);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 6px;
+}
+
+.photoGallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.venuePhoto {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.noVenueData {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.noVenueData p {
+  margin: 0 0 0.5rem 0;
+}
+
+.noVenueData small {
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .headerNav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .nav ul {
+    gap: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .filtersSection {
+    padding: 1rem;
+  }
+
+  .usersTable {
+    font-size: 0.8rem;
+  }
+
+  .usersTable th,
+  .usersTable td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .userInfo {
+    gap: 0.5rem;
+  }
+  
+  .avatarInitials {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .actionButtons button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .modal {
+    padding: 1rem;
+  }
+  
+  .modalContent {
+    margin: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .venueCard {
+    padding: 1rem;
+  }
+
+  .venueHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .photoGallery {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .venuePhoto {
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .usersTable th,
+  .usersTable td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .userName {
+    font-size: 0.875rem;
+  }
+  
+  .userEmail {
+    font-size: 0.75rem;
+  }
+  
+  .roleTag,
+  .statusTag {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Enhanced Booking Display */
+.bookingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.venueName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-3);
+  margin: 0;
+}
+
+.sportName {
+  font-size: 0.9rem;
+  color: var(--accent-2);
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 12px;
+}
+
+.bookingDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.bookingPrice {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.bookingId {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.slotsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.slotCard {
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.slotDate {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.slotTime {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.slotPrice {
+  font-size: 0.8rem;
+  color: var(--success);
+  font-weight: 600;
+}
+
+.bookingMeta {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Enhanced Sports Section */
+.sportsSection {
+  margin-top: 0.75rem;
+}
+
+.loadingSports {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(154, 203, 208, 0.1);
+  border-radius: 8px;
+  color: var(--accent-2);
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(154, 203, 208, 0.3);
+  border-top: 2px solid var(--accent-2);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.sportsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.sportCard {
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all var(--anim-fast);
+}
+
+.sportCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.sportCardHeader {
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(154, 203, 208, 0.1) 0%, rgba(72, 166, 167, 0.1) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sportTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sportName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.sportTypeTag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.indoorType {
+  background: rgba(72, 166, 167, 0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(72, 166, 167, 0.3);
+}
+
+.outdoorType {
+  background: rgba(41, 115, 178, 0.15);
+  color: var(--accent-3);
+  border: 1px solid rgba(41, 115, 178, 0.3);
+}
+
+.sportCardBody {
+  padding: 1rem;
+}
+
+.sportInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.75rem;
+}
+
+.sportInfoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sportInfoLabel {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sportInfoValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ratingStars {
+  color: #fbbf24;
+}
+
+.noSportsMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  margin-top: 0.75rem;
+}
+
+.noSportsIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+/* Responsive Design for Sports Section */
+@media (max-width: 768px) {
+  .sportsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sportInfoGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .sportTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

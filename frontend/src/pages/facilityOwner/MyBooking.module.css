@@ -1,0 +1,605 @@
+/* CSS Variables */
+:root {
+  --bg: #f2efe7;
+  --accent-1: #9acbd0;
+  --accent-2: #48a6a7;
+  --accent-3: #2973b2;
+  --muted: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --anim-fast: 180ms ease-out;
+  --anim-medium: 360ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+/* Base Styles */
+.container {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fadeIn {
+  animation: fadeInUp 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Loading State */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--accent-1);
+  border-top: 4px solid var(--accent-3);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Error State */
+.errorContainer {
+  text-align: center;
+  padding: 3rem;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.errorContainer h2 {
+  color: var(--danger);
+  margin-bottom: 1rem;
+}
+
+.retryButton {
+  background: var(--accent-3);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), box-shadow var(--anim-fast);
+  margin-top: 1rem;
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(41, 115, 178, 0.3);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.emptyState p {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+/* Bookings Grid */
+.bookingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Booking Card */
+.bookingCard {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform var(--anim-medium), box-shadow var(--anim-medium);
+}
+
+.bookingCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.bookingId {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusConfirmed {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.statusCancelled {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.statusDefault {
+  background: rgba(107, 114, 128, 0.1);
+  color: var(--text-secondary);
+}
+
+/* Card Content */
+.cardContent {
+  padding: 1.5rem;
+}
+
+.venueInfo {
+  margin-bottom: 1.5rem;
+}
+
+.venueName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.sportInfo {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.customerInfo {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Slots Section */
+.slotsSection {
+  margin-bottom: 1.5rem;
+}
+
+.slotsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.slotCard {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slotCard:last-child {
+  margin-bottom: 0;
+}
+
+.timeInfo {
+  flex: 1;
+}
+
+.timeSlot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeSlot:last-child {
+  margin-bottom: 0;
+}
+
+.timeLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.9;
+  min-width: 40px;
+}
+
+.timeValue {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.slotPrice {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+/* Card Footer */
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.totalPrice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.totalLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.totalValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-3);
+}
+
+.bookingDate {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* Card Actions */
+.cardActions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+}
+
+.viewButton,
+.contactButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), box-shadow var(--anim-fast);
+  border: none;
+}
+
+.viewButton {
+  background: var(--accent-3);
+  color: var(--white);
+}
+
+.contactButton {
+  background: transparent;
+  color: var(--accent-3);
+  border: 2px solid var(--accent-3);
+}
+
+.viewButton:hover,
+.contactButton:hover {
+  transform: translateY(-2px);
+}
+
+.viewButton:hover {
+  box-shadow: 0 4px 12px rgba(41, 115, 178, 0.3);
+}
+
+.contactButton:hover {
+  background: var(--accent-3);
+  color: var(--white);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .bookingsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .bookingDate {
+    text-align: left;
+  }
+
+  .cardActions {
+    flex-direction: column;
+  }
+
+  .slotCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .slotPrice {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeSlot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .timeLabel {
+    min-width: auto;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-1);
+}
+
+/* Navbar Styles */
+.navbar {
+  background: var(--white);
+  box-shadow: 0 2px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1500;
+  padding: 1rem 2rem;
+}
+
+.navbarContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navbarBrand {
+  display: flex;
+  align-items: center;
+}
+
+.brandTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.navbarMenu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLink {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all var(--anim-fast);
+}
+
+.navLink:hover {
+  background: rgba(72, 166, 167, 0.1);
+  color: var(--accent-3);
+}
+
+.userSection {
+  position: relative;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all var(--anim-fast);
+}
+
+.userProfile:hover {
+  background: rgba(72, 166, 167, 0.1);
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.userEmail {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.userDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  min-width: 180px;
+  z-index: 2000;
+  margin-top: 0.5rem;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--anim-fast);
+  font-size: 0.875rem;
+}
+
+.dropdownItem:hover {
+  background: rgba(72, 166, 167, 0.1);
+}
+
+.dropdownDivider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0.5rem 0;
+}

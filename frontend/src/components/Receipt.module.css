@@ -1,0 +1,290 @@
+/* Receipt Modal Styles */
+.receiptModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.receiptModalContent {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Receipt Container */
+.receiptContainer {
+  margin-bottom: 20px;
+}
+
+.receipt {
+  font-family: 'Courier New', monospace;
+  background: white;
+  border: 2px solid #000;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 400px;
+  color: #000;
+  line-height: 1.4;
+}
+
+/* Header Styles */
+.header {
+  text-align: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.companyName {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  letter-spacing: 2px;
+}
+
+.companyTagline {
+  font-size: 12px;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.receiptTitle {
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #000;
+  padding: 8px;
+  margin-top: 10px;
+  background: #f0f0f0;
+}
+
+/* Receipt Info Styles */
+.receiptInfo {
+  margin-bottom: 20px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.infoRow span:first-child {
+  font-weight: 500;
+}
+
+.infoRow span:last-child {
+  font-weight: bold;
+}
+
+/* Booking Details Styles */
+.bookingDetails {
+  border-top: 1px dashed #000;
+  border-bottom: 1px dashed #000;
+  padding: 15px 0;
+  margin-bottom: 15px;
+}
+
+.sectionTitle {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-decoration: underline;
+  text-align: center;
+}
+
+/* Payment Details Styles */
+.paymentDetails {
+  margin-bottom: 20px;
+}
+
+.amountRow {
+  font-weight: bold;
+  font-size: 16px;
+  border-top: 1px solid #000;
+  border-bottom: 2px solid #000;
+  padding: 10px 0;
+  margin-top: 10px;
+  background: #f8f8f8;
+}
+
+/* Footer Styles */
+.footer {
+  text-align: center;
+  border-top: 2px solid #000;
+  padding-top: 15px;
+  font-size: 12px;
+}
+
+.thankYou {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.qrPlaceholder {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #000;
+  margin: 15px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  background: repeating-linear-gradient(
+    45deg,
+    #000,
+    #000 2px,
+    #fff 2px,
+    #fff 4px
+  );
+  color: white;
+  font-weight: bold;
+}
+
+/* Action Buttons */
+.receiptActions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.downloadButton {
+  background: #48A6A7;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.downloadButton:hover {
+  background: #3a8485;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 166, 167, 0.3);
+}
+
+.downloadButton:active {
+  transform: translateY(0);
+}
+
+.closeButton {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.closeButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .receiptModal {
+    padding: 10px;
+  }
+  
+  .receiptModalContent {
+    padding: 20px;
+  }
+  
+  .receipt {
+    padding: 15px;
+  }
+  
+  .companyName {
+    font-size: 20px;
+  }
+  
+  .receiptActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .downloadButton,
+  .closeButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* QR Code Styles */
+.qrContainer {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.qrCode {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  margin: 0 auto;
+  display: block;
+}
+
+.qrPlaceholder {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #000;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  background: #f9f9f9;
+}
+
+/* Print Styles */
+@media print {
+  .receiptModal,
+  .receiptModalContent {
+    position: static;
+    background: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .receiptActions {
+    display: none;
+  }
+  
+  .receipt {
+    border: none;
+    max-width: none;
+    margin: 0;
+  }
+}

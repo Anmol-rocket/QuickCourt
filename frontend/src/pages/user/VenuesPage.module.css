@@ -1,0 +1,1359 @@
+/* CSS Variables */
+:root {
+  --bg: #f2efe7;
+  --accent-1: #9acbd0;
+  --accent-2: #48a6a7;
+  --accent-3: #2973b2;
+  --muted: rgba(0, 0, 0, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.2);
+  --border: #e1e5e9;
+  --anim-fast: 180ms ease-out;
+  --anim-medium: 360ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+/* Base Styles */
+.page {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.fadeIn {
+  animation: fadeInUp 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+/* Focus Ring */
+.focusRing:focus,
+button:focus,
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--accent-1);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--white);
+  box-shadow: 0 2px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 0;
+}
+
+.breadcrumb nav {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.breadcrumb a {
+  color: var(--accent-3);
+  text-decoration: none;
+  transition: color var(--anim-fast);
+}
+
+.breadcrumb a:hover {
+  color: var(--accent-2);
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  color: var(--accent-3);
+  text-decoration: none;
+  transition: color var(--anim-fast);
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.breadcrumbLink:hover {
+  color: var(--accent-2);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loginButton {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), box-shadow var(--anim-fast);
+}
+
+.loginButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 166, 167, 0.3);
+}
+
+/* Avatar Initials */
+.avatarInitials {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Mobile Filter Toggle */
+.mobileFilterToggle {
+  display: none;
+  background: var(--accent-3);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: transform var(--anim-fast);
+}
+
+.mobileFilterToggle:hover {
+  transform: translateY(-2px);
+}
+
+/* Filters Sidebar */
+.filters {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  height: fit-content;
+  position: sticky;
+  top: 120px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.filtersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filtersHeader h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.closeFilters {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--text-secondary);
+}
+
+.filterGroup {
+  margin-bottom: 1.5rem;
+}
+
+.filterLabel {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.filterInput {
+  width: 90%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: border-color var(--anim-fast);
+}
+
+.filterInput:focus {
+  border-color: var(--accent-3);
+}
+
+.priceInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rangeInput {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-3);
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.checkboxLabel input {
+  margin: 0;
+}
+
+.clearBtn {
+  width: 100%;
+  background: var(--border);
+  color: var(--text-primary);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--anim-fast);
+}
+
+.clearBtn:hover {
+  background: #d1d5db;
+}
+
+/* Location Search Styles */
+.locationSearchContainer {
+  position: relative;
+}
+
+.locationSuggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 2px;
+}
+
+.locationSuggestion {
+  width: 100%;
+  padding: 0.75rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--anim-fast);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.locationSuggestion:hover {
+  background: var(--bg-secondary);
+}
+
+.locationSuggestion:focus {
+  outline: none;
+  background: var(--accent-1);
+  color: var(--white);
+}
+
+/* Location Access Prompt Styles */
+.locationPrompt {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(72, 166, 167, 0.2);
+}
+
+.locationPromptContent {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.locationIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.locationPrompt h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.locationPrompt p {
+  margin: 0 0 1.5rem 0;
+  opacity: 0.9;
+}
+
+.locationButton {
+  background: var(--white);
+  color: var(--accent-1);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+  font-size: 0.9rem;
+}
+
+.locationButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.locationButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.locationError {
+  color: #ffcccb;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+/* My City Section Styles - Enhanced */
+.myCitySection {
+  background: var(--white);
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  overflow: hidden;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(72, 166, 167, 0.1);
+  position: relative;
+}
+
+.myCitySection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+}
+
+.myCityHeader {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.headerGradient {
+  background: linear-gradient(135deg, 
+    rgba(72, 166, 167, 0.05) 0%, 
+    rgba(41, 115, 178, 0.05) 50%, 
+    rgba(154, 203, 208, 0.05) 100%);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.headerGradient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 100px;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(72, 166, 167, 0.1), transparent);
+  transform: rotate(15deg);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.headerContent {
+  position: relative;
+  z-index: 2;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.titleIcon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.venueCounter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(72, 166, 167, 0.3);
+  min-width: 80px;
+}
+
+.counterNumber {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.counterText {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.locationInfo {
+  display: flex;
+  justify-content: center;
+}
+
+.currentLocation {
+  display: flex;
+  justify-content: center;
+}
+
+.locationBadge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--white);
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  border: 2px solid rgba(72, 166, 167, 0.2);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.locationIcon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.locationDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.locationText {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.locationSubtext {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.myCityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.myCityCard {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid rgba(72, 166, 167, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  animation: cardSlideIn 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes cardSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.myCityCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(72, 166, 167, 0.2);
+  border-color: var(--accent-1);
+}
+
+.cardImageContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.myCityImage {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.myCityCard:hover .myCityImage {
+  transform: scale(1.1);
+}
+
+.ratingBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.85);
+  color: var(--white);
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  min-width: 60px;
+  justify-content: center;
+}
+
+.starIcon {
+  font-size: 0.9rem;
+}
+
+.ratingValue {
+  font-weight: 700;
+}
+
+.ratingCount {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-left: 0.1rem;
+}
+
+.priceBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(72, 166, 167, 0.4);
+}
+
+.priceValue {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.priceUnit {
+  font-size: 0.7rem;
+  opacity: 0.9;
+}
+
+/* New Enhanced Elements */
+.availabilityBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(76, 175, 80, 0.9);
+  color: var(--white);
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+.availabilityDot {
+  width: 6px;
+  height: 6px;
+  background: #4CAF50;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.availabilityText {
+  font-size: 0.7rem;
+}
+
+.facilityTypeBadge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(255, 152, 0, 0.9);
+  color: var(--white);
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.myCityMeta {
+  padding: 1.5rem;
+}
+
+/* Enhanced Card Header */
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.myCityTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.favoriteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.favoriteBtn:hover {
+  background: rgba(255, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.heartIcon {
+  transition: all 0.2s ease;
+}
+
+.favoriteBtn:hover .heartIcon {
+  filter: hue-rotate(0deg);
+}
+
+.venueLocation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.locationDot {
+  font-size: 0.8rem;
+}
+
+.locationName {
+  font-weight: 500;
+  flex: 1;
+}
+
+.distanceTag {
+  background: rgba(72, 166, 167, 0.1);
+  color: var(--accent-1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.myCityTags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.sportsContainer {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.moreSportsTag {
+  background: rgba(128, 128, 128, 0.2);
+  color: var(--text-secondary);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.locationMatchTag {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: var(--white);
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+
+.nearIcon {
+  font-size: 0.7rem;
+}
+
+.sportTag {
+  background: rgba(72, 166, 167, 0.1);
+  color: var(--accent-1);
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(72, 166, 167, 0.2);
+}
+
+/* Quick Stats Section */
+.quickStats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(72, 166, 167, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(72, 166, 167, 0.1);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.statIcon {
+  font-size: 0.9rem;
+}
+
+.statText {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Action Buttons */
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quickBookBtn {
+  flex: 2;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(72, 166, 167, 0.3);
+}
+
+.quickBookBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(72, 166, 167, 0.4);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+}
+
+.viewDetailsBtn {
+  flex: 1;
+  background: var(--white);
+  color: var(--accent-1);
+  border: 2px solid var(--accent-1);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.viewDetailsBtn:hover {
+  background: var(--accent-1);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(72, 166, 167, 0.2);
+}
+
+.bookIcon,
+.detailsIcon {
+  font-size: 0.9rem;
+}
+
+.quickBookBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(72, 166, 167, 0.4);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+}
+
+.bookIcon {
+  font-size: 0.9rem;
+}
+
+.viewAllCityButton {
+  width: 100%;
+  background: var(--accent-1);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+.viewAllCityButton:hover {
+  background: var(--accent-2);
+  transform: translateY(-1px);
+}
+
+/* Mobile Responsive Styles for Location Features */
+@media (max-width: 768px) {
+  .locationPrompt {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .locationIcon {
+    font-size: 2.5rem;
+  }
+
+  .locationPrompt h3 {
+    font-size: 1.25rem;
+  }
+
+  .myCitySection {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .myCityHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .myCityGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .myCityImage {
+    height: 100px;
+  }
+
+  .myCityMeta {
+    padding: 0.75rem;
+  }
+
+  .myCityTitle {
+    font-size: 0.9rem;
+  }
+
+  .currentLocation {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+  }
+
+  .locationText {
+    font-size: 0.8rem;
+  }
+
+  .locationInfoSection {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .noVenuesMessage {
+    font-size: 0.85rem;
+  }
+}
+
+/* Overlay Drawer */
+.overlayDrawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+}
+
+/* Main Content */
+.content {
+  min-height: 100vh;
+}
+
+.contentHeader {
+  margin-bottom: 2rem;
+}
+
+.contentHeader h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.contentHeader p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Venues Grid */
+.venuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.venueCard {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform var(--anim-medium), box-shadow var(--anim-medium);
+  cursor: pointer;
+  will-change: transform;
+}
+
+.venueCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 40px var(--shadow-hover);
+}
+
+.venueImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.venueMeta {
+  padding: 1.5rem;
+}
+
+.venueTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.starFilled {
+  color: #ffd700;
+  font-size: 0.875rem;
+}
+
+.starEmpty {
+  color: #ddd;
+  font-size: 0.875rem;
+}
+
+.ratingText {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.location {
+  color: var(--text-secondary);
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.venueTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.tag {
+  background: var(--accent-1);
+  color: var(--white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sportTag {
+  background: var(--accent-3);
+  color: var(--white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-3);
+  margin: 1rem 0;
+}
+
+.ctaRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.detailsBtn {
+  flex: 1;
+  background: var(--border);
+  color: var(--text-primary);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), background-color var(--anim-fast);
+}
+
+.detailsBtn:hover {
+  transform: translateY(-2px);
+  background: #d1d5db;
+}
+
+.bookBtn {
+  flex: 1;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: var(--white);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), box-shadow var(--anim-fast);
+}
+
+.bookBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 166, 167, 0.3);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagerBtn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--anim-fast), background-color var(--anim-fast);
+  min-width: 44px;
+}
+
+.pagerBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--accent-1);
+  color: var(--white);
+}
+
+.pagerBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagerActive {
+  background: var(--accent-3);
+  color: var(--white);
+  border-color: var(--accent-3);
+  animation: pulse 0.3s ease-out;
+}
+
+.pagerEllipsis {
+  background: none;
+  border: none;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1199px) {
+  .layout {
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .venuesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .breadcrumb {
+    order: 3;
+    width: 100%;
+    text-align: center;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .mobileFilterToggle {
+    display: block;
+  }
+
+  .filters {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 80vw;
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform 320ms var(--anim-medium);
+    border-radius: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .filtersOpen {
+    transform: translateX(0);
+    animation: slideInFromLeft 320ms var(--anim-medium) both;
+  }
+
+  .closeFilters {
+    display: block;
+  }
+
+  .overlayDrawer {
+    display: block;
+  }
+
+  .venuesGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .venueCard {
+    max-width: 100%;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .pagerBtn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    min-width: 40px;
+  }
+
+  .contentHeader h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filters {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ctaRow {
+    flex-direction: column;
+  }
+
+  .pagination {
+    justify-content: space-between;
+  }
+
+  .pagerBtn {
+    flex: 1;
+    max-width: 80px;
+  }
+}

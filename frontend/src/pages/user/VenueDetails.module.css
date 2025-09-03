@@ -1,0 +1,935 @@
+/* Improved base styles with better spacing system */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.page.fadeIn {
+  opacity: 1;
+}
+
+/* Enhanced header with better layout and spacing */
+.header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo h1 {
+  color: #48a6a7;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748b;
+  font-size: 0.9rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  color: #48a6a7;
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #357a7b;
+  background: #f0f9ff;
+}
+
+.breadcrumbSeparator {
+  color: #cbd5e1;
+  font-weight: 300;
+}
+
+.breadcrumbCurrent {
+  color: #1e293b;
+  font-weight: 500;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.loginButton {
+  background: #48a6a7;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(72, 166, 167, 0.2);
+}
+
+.loginButton:hover {
+  background: #357a7b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(72, 166, 167, 0.3);
+}
+
+.avatarInitials {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Improved container with consistent spacing */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.backButtonContainer {
+  margin-bottom: 2rem;
+}
+
+.backBtn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.backBtn:hover {
+  background: #f8fafc;
+  color: #48a6a7;
+  transform: translateX(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.backIcon {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.backBtn:hover .backIcon {
+  transform: translateX(-2px);
+}
+
+/* Enhanced main content layout with better grid system */
+.venueContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  align-items: start;
+}
+
+/* Improved image carousel with better proportions and sticky positioning */
+.imageSection {
+  position: sticky;
+  top: 2rem;
+  background: #f8fafc;
+  height: fit-content;
+  max-height: calc(100vh - 4rem);
+  overflow: hidden;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carouselTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carouselSlide {
+  min-width: 100%;
+  height: 100%;
+}
+
+.carouselImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.carouselBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
+
+.carouselBtn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prevBtn {
+  left: 1.5rem;
+}
+
+.nextBtn {
+  right: 1.5rem;
+}
+
+.imageCounter {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+}
+
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: rgba(248, 250, 252, 0.95);
+  backdrop-filter: blur(8px);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover,
+.dot.activeDot {
+  background: #48a6a7;
+  transform: scale(1.3);
+}
+
+.noImageContainer {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Enhanced venue info section with better spacing */
+.venueInfo {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.venueHeader {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.venueName {
+  margin: 0;
+  color: #1e293b;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.venueBadges {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.verifiedBadge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.typeBadge {
+  background: linear-gradient(135deg, #48a6a7, #357a7b);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(72, 166, 167, 0.2);
+}
+
+.badgeIcon {
+  font-size: 0.75rem;
+}
+
+/* Better aligned meta information */
+.venueMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ratingSection {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.starFilled {
+  color: #fbbf24;
+  font-size: 1.2rem;
+}
+
+.starEmpty {
+  color: #d1d5db;
+  font-size: 1.2rem;
+}
+
+.ratingText {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.loadingText {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.locationInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748b;
+}
+
+.locationIcon {
+  font-size: 1.2rem;
+}
+
+.address {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Improved content sections with consistent spacing */
+.contentSections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.descriptionSection,
+.sportsSection,
+.amenitiesSection,
+.contactSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.description {
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.sportsTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sportTag {
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  color: #0369a1;
+  padding: 0.625rem 1.25rem;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid #7dd3fc;
+  transition: all 0.2s ease;
+}
+
+.sportTag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(3, 105, 161, 0.2);
+}
+
+.amenitiesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.amenityItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748b;
+  padding: 0.5rem 0;
+}
+
+.amenityIcon {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.amenityText {
+  font-size: 0.95rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748b;
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.contactIcon {
+  font-size: 1.2rem;
+}
+
+.contactText {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Enhanced comments section with better layout */
+.commentsSection {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+}
+
+.commentsSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.commentsCount {
+  background: linear-gradient(135deg, #48a6a7, #357a7b);
+  color: white;
+  padding: 0.375rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(72, 166, 167, 0.2);
+}
+
+.commentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scrollHint {
+  text-align: center;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid #7dd3fc;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #0369a1;
+  font-weight: 500;
+}
+
+.commentsLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  color: #64748b;
+}
+
+.commentsError {
+  color: #dc2626;
+  padding: 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+}
+
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.commentsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.commentsList::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.commentsList::-webkit-scrollbar-thumb {
+  background: #48a6a7;
+  border-radius: 3px;
+}
+
+.commentItem {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.commentItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.commentAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.authorAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #48a6a7, #357a7b);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.authorEmail {
+  font-weight: 500;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.commentDate {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.commentRating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.ratingValue {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.commentContent {
+  margin-bottom: 1rem;
+}
+
+.commentText {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0 0 0.75rem 0;
+  font-size: 0.95rem;
+}
+
+.commentSportTag {
+  display: inline-block;
+  background: linear-gradient(135deg, #48a6a7, #357a7b);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.commentActions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.voteButton {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.voteButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #48a6a7;
+}
+
+.voteIcon {
+  font-size: 0.875rem;
+}
+
+.noComments {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #64748b;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* Enhanced action buttons with better spacing and alignment */
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.bookNowBtn {
+  background: linear-gradient(135deg, #48a6a7, #357a7b);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex: 1;
+  box-shadow: 0 4px 12px rgba(72, 166, 167, 0.3);
+}
+
+.bookNowBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(72, 166, 167, 0.4);
+}
+
+.shareBtn,
+.favoriteBtn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.shareBtn:hover,
+.favoriteBtn:hover {
+  background: #f8fafc;
+  color: #48a6a7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.bookIcon,
+.shareIcon,
+.heartIcon {
+  font-size: 1.1rem;
+}
+
+/* Loading and Error States */
+.loadingContainer,
+.errorContainer {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #48a6a7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced responsive design with better breakpoints */
+@media (max-width: 1024px) {
+  .venueContent {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .carousel {
+    height: 400px;
+  }
+
+  .venueInfo {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .breadcrumb {
+    justify-content: center;
+    order: 2;
+  }
+
+  .headerRight {
+    order: 3;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .venueContent {
+    border-radius: 16px;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .imageSection {
+    position: relative;
+    top: auto;
+    max-height: none;
+  }
+
+  .venueInfo {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .venueName {
+    font-size: 1.75rem;
+  }
+
+  .venueMetaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .carousel {
+    height: 300px;
+  }
+
+  .amenitiesList {
+    grid-template-columns: 1fr;
+  }
+
+  .commentHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .commentRating {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .venueInfo {
+    padding: 1rem;
+  }
+
+  .venueName {
+    font-size: 1.5rem;
+  }
+
+  .carousel {
+    height: 250px;
+  }
+
+  .commentsSection {
+    padding: 1.5rem;
+  }
+
+  .commentItem {
+    padding: 1rem;
+  }
+
+  .authorAvatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+  }
+}
