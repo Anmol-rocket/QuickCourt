@@ -109,6 +109,12 @@
 - **Recharts**
 - **React Hot Toast**
 
+### App
+- **Kotlin**
+- **Jetpack Compose**
+- **Coil**
+- **Gradle**
+
 
 
 ### DEMO VIDEO link
