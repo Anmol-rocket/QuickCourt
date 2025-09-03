@@ -95,10 +95,9 @@
 ## 🛠 Tech Stack
 
 ### Backend
-- **Node.js**
-- **Express.js**
+- **Springboot**
+- **Spring MVC**
 - **PostgreSQL**
-- **Supabase**
 - **REST APIs**
 
 ### Frontend
